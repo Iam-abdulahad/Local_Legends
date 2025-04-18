@@ -10,6 +10,7 @@ const Navbar = () => {
     { name: "Explore Map", href: "/map" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
+    { name: "Login", href: "/login" },
   ];
 
   return (

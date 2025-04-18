@@ -8,6 +8,8 @@ import SubmitStory from "./pages/SubmitStory";
 import Map from "./pages/Map";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Login from "./Login/Login";
+import Signup from "./Login/SignUp";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
       <Footer />
     </Router>
