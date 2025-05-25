@@ -1,23 +1,74 @@
 import { useState } from "react";
 import SocialLogin from "./SocialsLogin";
 import { Link } from "react-router-dom";
+import { auth, db } from "../firebase/firebaseConfig";
+import Swal from "sweetalert2";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { motion } from "framer-motion";
 
 const Signup = () => {
   const [signupData, setSignupData] = useState({
     name: "",
     email: "",
     password: "",
+    role: "user",
+    createdAt: serverTimestamp(),
   });
+
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setSignupData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup Info:", signupData);
-    // Handle signup logic here
+    setLoading(true);
+
+    try {
+      const { name, email, password } = signupData;
+
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      await sendEmailVerification(user);
+
+      const userInfo = {
+        uid: user.uid,
+        name,
+        email,
+        photoURL: user.photoURL || "",
+        role: "user",
+        createdAt: new Date(),
+      };
+
+      await setDoc(doc(db, "users", user.uid), userInfo);
+
+      
+      Swal.fire({
+        icon: "success",
+        title: "Signup Successful",
+        html: `Welcome, ${name}!<br/>A verification email has been sent to <strong>${email}</strong>. Please verify your email before logging in.`,
+      });
+
+      
+      setSignupData({ name: "", email: "", password: "" });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Signup Failed",
+        text: error.message,
+      });
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -62,12 +113,27 @@ const Signup = () => {
           className="w-full p-2 mb-6 border rounded focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
         />
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full bg-[#7D0A0A] text-[#EAD196] py-2 rounded hover:bg-[#BF3131] transition"
+          disabled={loading}
+          className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
+            loading
+              ? "bg-[#BF3131]/70 cursor-not-allowed"
+              : "bg-[#7D0A0A] hover:bg-[#BF3131]"
+          } text-[#EAD196]`}
         >
-          Sign Up
-        </button>
+          {loading ? (
+            <div className="flex items-center gap-2 animate-pulse">
+              <div className="w-4 h-4 border-2 border-[#EAD196] border-t-transparent rounded-full animate-spin"></div>
+              Signing Up...
+            </div>
+          ) : (
+            "Sign Up"
+          )}
+        </motion.button>
+
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{" "}
           <Link

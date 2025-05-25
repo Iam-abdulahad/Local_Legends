@@ -1,6 +1,10 @@
 import { useState } from "react";
 import SocialLogin from "./SocialsLogin";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import Swal from "sweetalert2";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { auth } from "../firebase/firebaseConfig";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -10,11 +14,50 @@ const Login = () => {
     setLoginData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Info:", loginData);
-    // Handle login logic here
-  };
+ const [loading, setLoading] = useState(false);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+
+  try {
+    const { email, password } = loginData;
+
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    if (!user.emailVerified) {
+      await signOut(auth);
+      Swal.fire({
+        icon: "warning",
+        title: "Email Not Verified",
+        text: "Please verify your email before logging in.",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Success
+    Swal.fire({
+      icon: "success",
+      title: "Login Successful",
+      text: `Welcome back, ${user.email}!`,
+    });
+
+    // Navigate or do something after login...
+
+    setLoginData({ email: "", password: "" }); // Reset form if needed
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Login Failed",
+      text: error.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
   return (
     <div className="flex items-center justify-center bg-[#EEEEEE] p-6">
@@ -48,12 +91,26 @@ const Login = () => {
           className="w-full p-2 mb-6 border rounded focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
         />
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           type="submit"
-          className="w-full bg-[#7D0A0A] text-[#EAD196] py-2 rounded hover:bg-[#BF3131] transition"
+          disabled={loading}
+          className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
+            loading
+              ? "bg-[#BF3131]/70 cursor-not-allowed"
+              : "bg-[#7D0A0A] hover:bg-[#BF3131]"
+          } text-[#EAD196]`}
         >
-          Sign In
-        </button>
+          {loading ? (
+            <div className="flex items-center gap-2 animate-pulse">
+              <div className="w-4 h-4 border-2 border-[#EAD196] border-t-transparent rounded-full animate-spin"></div>
+              logging in...
+            </div>
+          ) : (
+            "Login"
+          )}
+        </motion.button>
 
         <p className="text-center text-sm text-gray-600 mt-4">
           Don't have an account?{" "}
