@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../../firebase/firebaseConfig";
 import { motion } from "framer-motion";
+import { getAuth } from "firebase/auth";
 
 const SubmitStory = () => {
+  const auth = getAuth  ();
+  const currentUser = auth.currentUser;
+
+  if (!currentUser) {
+    alert("Please log in to submit a story.");
+    return;
+  }
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,10 +36,19 @@ const SubmitStory = () => {
     try {
       const tagsArray = formData.tags
         .split(",")
-        .map((tag) => tag.trim().toLowerCase());
+        .map((tag) => tag.trim().toLowerCase())
+        .filter((tag) => tag.length > 0);
+
       const docRef = await addDoc(collection(db, "stories"), {
         ...formData,
         tags: tagsArray,
+        createdAt: serverTimestamp(),
+        reactions: {
+          "❤️": 0,
+          "👍": 0,
+          "😂": 0,
+          "😮": 0,
+        },
       });
 
       console.log("Story submitted with ID:", docRef.id);
@@ -53,9 +71,9 @@ const SubmitStory = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
       <motion.h1
-        className="text-3xl md:text-4xl font-bold text-[#7D0A0A] mb-6 text-center"
+        className="text-3xl md:text-4xl font-extrabold text-[#7D0A0A] mb-6 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -68,76 +86,53 @@ const SubmitStory = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.6 }}
-        className="bg-[#EEEEEE] p-8 rounded-2xl shadow-xl space-y-6"
+        className="bg-[#EEEEEE] p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
       >
-        {/* Name & Email */}
         <div className="grid md:grid-cols-2 gap-4">
-          <div>
-            <label className="text-[#7D0A0A] font-medium">Your Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-            />
-          </div>
-          <div>
-            <label className="text-[#7D0A0A] font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-              placeholder="Optional"
-            />
-          </div>
-        </div>
-
-        {/* Title & Location */}
-        <div>
-          <label className="text-[#7D0A0A] font-medium">Story Title</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
+          <InputField
+            label="Your Name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
-            className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
           />
-        </div>
-
-        <div>
-          <label className="text-[#7D0A0A] font-medium">Location</label>
-          <input
-            type="text"
-            name="location"
-            value={formData.location}
+          <InputField
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
             onChange={handleChange}
-            required
-            className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-            placeholder="e.g., Dhaka, Sylhet, or 'The Old Banyan Tree'"
+            placeholder="Optional"
           />
         </div>
 
-        {/* Tags */}
-        <div>
-          <label className="text-[#7D0A0A] font-medium">Tags</label>
-          <input
-            type="text"
-            name="tags"
-            value={formData.tags}
-            onChange={handleChange}
-            className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-            placeholder="Separate tags with commas (e.g. hero, kindness, history)"
-          />
-        </div>
+        <InputField
+          label="Story Title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
 
-        {/* Story */}
+        <InputField
+          label="Location"
+          name="location"
+          value={formData.location}
+          onChange={handleChange}
+          required
+          placeholder="e.g., Sylhet, Rajshahi, or 'The Old Banyan Tree'"
+        />
+
+        <InputField
+          label="Tags"
+          name="tags"
+          value={formData.tags}
+          onChange={handleChange}
+          placeholder="e.g. hero, kindness, mystery"
+        />
+
         <div>
-          <label className="text-[#7D0A0A] font-medium">Story</label>
+          <label className="text-[#7D0A0A] font-medium">Your Story</label>
           <textarea
             name="story"
             value={formData.story}
@@ -145,11 +140,10 @@ const SubmitStory = () => {
             required
             rows="6"
             className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-            placeholder="Share your heartfelt local story here..."
+            placeholder="Share your heartfelt story..."
           />
         </div>
-        
-        {/* Submit Button */}
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -174,5 +168,15 @@ const SubmitStory = () => {
     </div>
   );
 };
+
+const InputField = ({ label, ...props }) => (
+  <div>
+    <label className="text-[#7D0A0A] font-medium">{label}</label>
+    <input
+      {...props}
+      className="w-full mt-1 p-3 rounded-xl border focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
+    />
+  </div>
+);
 
 export default SubmitStory;

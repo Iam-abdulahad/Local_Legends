@@ -4,13 +4,13 @@ import Navbar from "./components/Navbar";
 
 // Import your pages
 import Home from "./pages/Home";
-import SubmitStory from "./pages/SubmitStory";
 import Map from "./pages/Map";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./Login/Login";
 import Signup from "./Login/SignUp";
 import NotFound from "./pages/NotFound";
+import SubmitStory from "./pages/Story/SubmitStory";
 
 function App() {
   return (

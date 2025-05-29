@@ -1,3 +1,4 @@
+// context/AuthContex.jsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   GoogleAuthProvider,
@@ -8,15 +9,12 @@ import {
 import Swal from "sweetalert2";
 import { auth } from "../firebase/firebaseConfig";
 
-// Create context
 const AuthContext = createContext();
 
-// Provider
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Login with Google
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     try {
@@ -37,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout
   const logout = async () => {
     try {
       await signOut(auth);
@@ -57,10 +54,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Listen for auth state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
       setLoading(false);
     });
 
@@ -68,11 +64,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loginWithGoogle, logout, loading }}>
+    <AuthContext.Provider
+      value={{
+        currentUser,
+        loginWithGoogle,
+        logout,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook
 export const useAuth = () => useContext(AuthContext);
