@@ -11,6 +11,7 @@ import Login from "./Login/Login";
 import Signup from "./Login/SignUp";
 import NotFound from "./pages/NotFound";
 import SubmitStory from "./pages/Story/SubmitStory";
+import StoryDetails from "./pages/Story/StoryDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/stories/:id" element={<StoryDetails />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

@@ -2,14 +2,14 @@ import CTASection from "./Home/CTASections";
 import HeroSection from "./Home/HeroSections";
 import HowItWorks from "./Home/HowItWorks";
 import StoryCard from "./Story/StoryCard";
-import StoryDetails from "./Story/StoryDetails";
+import StoryList from "./Story/StoryLIst";
 
 const Home = () => {
   return (
     <div>
       <HeroSection></HeroSection>
+      <StoryList></StoryList>
       <StoryCard></StoryCard>
-      <StoryDetails></StoryDetails>
       <CTASection></CTASection>
       <HowItWorks></HowItWorks>
     </div>

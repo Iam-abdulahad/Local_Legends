@@ -17,6 +17,7 @@ const StoryCard = ({ story }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [hasReacted, setHasReacted] = useState(false);
 
+
   useEffect(() => {
     if (!story || !story.id || !currentUser) return;
 
@@ -84,7 +85,7 @@ const StoryCard = ({ story }) => {
       whileHover={{ scale: 1.02 }}
       className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition"
     >
-      <Link to={`/story/${story.id}`}>
+      <Link to={`/stories/${story.id}`}>
         <h2 className="text-xl font-bold text-[#7D0A0A] mb-2">
           {story.title || "Untitled Story"}
         </h2>

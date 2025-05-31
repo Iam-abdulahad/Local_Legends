@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  increment,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 import { motion } from "framer-motion";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContex";
@@ -17,6 +24,12 @@ const StoryDetails = () => {
 
   useEffect(() => {
     const fetchStory = async () => {
+      if (!id) {
+        console.error("Invalid story ID");
+        setLoading(false);
+        return;
+      }
+
       try {
         const docRef = doc(db, "stories", id);
         const docSnap = await getDoc(docRef);
@@ -31,6 +44,8 @@ const StoryDetails = () => {
                 data.savedBy.includes(currentUser.uid)
             );
           }
+        } else {
+          console.warn("No such document!");
         }
       } catch (error) {
         console.error("Error fetching story:", error);
@@ -43,25 +58,32 @@ const StoryDetails = () => {
   }, [id, currentUser]);
 
   const handleReaction = async (emoji) => {
-    const storyRef = doc(db, "stories", id);
-    await updateDoc(storyRef, {
-      [`reactions.${emoji}`]: increment(1),
-    });
+    try {
+      const storyRef = doc(db, "stories", id);
+      await updateDoc(storyRef, {
+        [`reactions.${emoji}`]: increment(1),
+      });
 
-    // Refresh UI after reaction
-    const updatedSnap = await getDoc(storyRef);
-    setStory({ id: updatedSnap.id, ...updatedSnap.data() });
+      const updatedSnap = await getDoc(storyRef);
+      setStory({ id: updatedSnap.id, ...updatedSnap.data() });
+    } catch (error) {
+      console.error("Error reacting:", error);
+    }
   };
 
   const handleSave = async () => {
     if (!currentUser) return alert("Please log in to save stories.");
-    const storyRef = doc(db, "stories", id);
-    await updateDoc(storyRef, {
-      savedBy: isSaved
-        ? arrayRemove(currentUser.uid)
-        : arrayUnion(currentUser.uid),
-    });
-    setIsSaved(!isSaved);
+    try {
+      const storyRef = doc(db, "stories", id);
+      await updateDoc(storyRef, {
+        savedBy: isSaved
+          ? arrayRemove(currentUser.uid)
+          : arrayUnion(currentUser.uid),
+      });
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error("Error saving story:", error);
+    }
   };
 
   if (loading) return <div className="text-center py-10">Loading...</div>;
