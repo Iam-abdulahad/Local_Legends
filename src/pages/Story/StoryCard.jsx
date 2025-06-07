@@ -17,7 +17,6 @@ const StoryCard = ({ story }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [hasReacted, setHasReacted] = useState(false);
 
-
   useEffect(() => {
     if (!story || !story.id || !currentUser) return;
 
@@ -28,8 +27,9 @@ const StoryCard = ({ story }) => {
 
         if (docSnap.exists()) {
           const data = docSnap.data();
-          const reactions = data.reactions || [];
-          const savedBy = data.savedBy || [];
+          const reactions = Array.isArray(data.reactions) ? data.reactions : [];
+          const savedBy = Array.isArray(data.savedBy) ? data.savedBy : [];
+
           setHasReacted(reactions.includes(currentUser.uid));
           setIsSaved(savedBy.includes(currentUser.uid));
         }
@@ -83,32 +83,48 @@ const StoryCard = ({ story }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="bg-white rounded-2xl p-5 shadow-md hover:shadow-xl transition"
+      className="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 max-w-4xl mx-auto bg-white"
     >
-      <Link to={`/stories/${story.id}`}>
-        <h2 className="text-xl font-bold text-[#7D0A0A] mb-2">
-          {story.title || "Untitled Story"}
-        </h2>
-        <p className="text-gray-600 line-clamp-3">
-          {story.story || "No story content available."}
-        </p>
+      {/* Image or background */}
+      <Link to={`/stories/${story.id}`} className="block md:flex">
+        <div className="md:w-1/3 h-48 md:h-auto bg-gradient-to-tr from-[#7D0A0A] to-pink-300 flex items-center justify-center text-white text-3xl font-bold">
+          {/* Replace this div with an actual <img src={...}/> if you have a thumbnail */}
+          IMG
+        </div>
+
+        {/* Text content */}
+        <div className="flex-1 p-6 md:p-8 space-y-3">
+          <h2 className="text-2xl font-extrabold text-gray-800 group-hover:text-[#7D0A0A] transition-colors duration-200">
+            {story.title || "Untitled Story"}
+          </h2>
+          <p className="text-gray-600 line-clamp-4 leading-relaxed text-base">
+            {story.story || "No story content available."}
+          </p>
+        </div>
       </Link>
-      <div className="mt-4 flex justify-between items-center">
+
+      {/* Floating action area */}
+      <div className="absolute bottom-4 right-4 bg-white/70 backdrop-blur-md rounded-full px-4 py-2 flex gap-4 items-center shadow-md">
         <button
           onClick={handleReaction}
-          className={`text-lg flex items-center gap-1 transition ${
-            hasReacted ? "text-red-500" : "text-gray-500"
+          className={`flex items-center gap-1 text-sm font-medium transition ${
+            hasReacted ? "text-red-500" : "text-gray-500 hover:text-red-400"
           }`}
           aria-label="React to story"
         >
-          <FaHeart />
+          <FaHeart className="text-lg" />
         </button>
+
         <button
           onClick={handleSave}
-          className="text-lg text-gray-500 hover:text-[#7D0A0A] transition"
+          className="text-gray-500 hover:text-[#7D0A0A] transition-colors"
           aria-label="Save story"
         >
-          {isSaved ? <FaBookmark /> : <FaRegBookmark />}
+          {isSaved ? (
+            <FaBookmark className="text-lg" />
+          ) : (
+            <FaRegBookmark className="text-lg" />
+          )}
         </button>
       </div>
     </motion.div>
