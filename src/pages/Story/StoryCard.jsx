@@ -82,7 +82,7 @@ const StoryCard = ({ story }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
-      className="flex flex-col bg-white shadow-sm border border-slate-200 rounded-lg overflow-hidden transition duration-300"
+      className="flex flex-col bg-[#EEE] shadow-sm border border-slate-200 rounded-lg overflow-hidden transition duration-300"
     >
       <div className="p-4 flex flex-col flex-1">
         <h5 className="mb-2 text-slate-800 text-xl font-semibold">
