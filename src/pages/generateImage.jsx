@@ -1,6 +1,6 @@
 // src/components/ImageGenerator.jsx
 import React, { useState } from "react";
-import generateImage from "./ImageApi";
+import generateImage from "../API/ImageApi";
 
 const ImageGenerator = () => {
   const [prompt, setPrompt] = useState("");
@@ -33,7 +33,7 @@ const ImageGenerator = () => {
       <input
         type="text"
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)} // ✅ Make sure this is e.target.value
+        onChange={(e) => setPrompt(e.target.value)}
         placeholder="Enter prompt"
       />
 
