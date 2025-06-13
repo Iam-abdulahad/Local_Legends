@@ -9,7 +9,6 @@ const Home = () => {
     <div>
       <HeroSection></HeroSection>
       <StoryList></StoryList>
-      <StoryCard></StoryCard>
       <CTASection></CTASection>
       <HowItWorks></HowItWorks>
     </div>
