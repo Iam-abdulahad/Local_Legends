@@ -25,7 +25,6 @@ const StoryDetails = () => {
   useEffect(() => {
     const fetchStory = async () => {
       if (!id) {
-        console.error("Invalid story ID");
         setLoading(false);
         return;
       }
@@ -44,8 +43,6 @@ const StoryDetails = () => {
                 data.savedBy.includes(currentUser.uid)
             );
           }
-        } else {
-          console.warn("No such document!");
         }
       } catch (error) {
         console.error("Error fetching story:", error);
@@ -86,49 +83,76 @@ const StoryDetails = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
-  if (!story) return <div className="text-center py-10">Story not found.</div>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#EEEEEE]">
+        <motion.div
+          className="w-16 h-16 border-4 border-[#7D0A0A] border-t-transparent rounded-full animate-spin"
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5 }}
+        />
+      </div>
+    );
+
+  if (!story)
+    return (
+      <div className="min-h-screen flex items-center justify-center text-[#7D0A0A] font-semibold text-xl">
+        Story not found.
+      </div>
+    );
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-xl mt-6"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-5xl mx-auto p-6 sm:p-8 my-8 bg-white rounded-2xl shadow-lg"
     >
-      <h1 className="text-3xl font-bold text-[#7D0A0A] mb-2">{story.title}</h1>
-      <p className="text-sm text-gray-400 mb-4">Location: {story.location}</p>
-      <p className="text-gray-700 whitespace-pre-line mb-4">{story.story}</p>
+      <h1 className="text-3xl sm:text-4xl font-bold text-[#7D0A0A] mb-2">
+        {story.title}
+      </h1>
+      <p className="text-sm text-gray-500 mb-4 italic">
+        📍 Location: {story.location}
+      </p>
+      <p className="text-gray-800 whitespace-pre-line leading-relaxed mb-6">
+        {story.story}
+      </p>
 
-      <div className="text-sm text-gray-600 mb-4">
-        Tags:{" "}
-        {story.tags?.map((tag, idx) => (
-          <span
-            key={idx}
-            className="inline-block bg-[#EAD196] text-[#7D0A0A] px-2 py-1 rounded-full mr-2 text-xs"
-          >
-            #{tag}
-          </span>
-        ))}
-      </div>
+      {story.tags?.length > 0 && (
+        <div className="mb-6 flex flex-wrap gap-2">
+          {story.tags.map((tag, idx) => (
+            <span
+              key={idx}
+              className="bg-[#EAD196] text-[#7D0A0A] px-3 py-1 rounded-full text-sm font-medium"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
 
-      <div className="flex flex-wrap items-center gap-4 mt-4">
+      <div className="flex flex-wrap items-center gap-4 border-t pt-4">
         {emojiOptions.map((emoji) => (
-          <button
+          <motion.button
+            whileTap={{ scale: 1.2 }}
+            whileHover={{ scale: 1.1 }}
             key={emoji}
             onClick={() => handleReaction(emoji)}
-            className="text-2xl hover:scale-110 transition-transform"
+            className="text-2xl sm:text-3xl transition-all"
           >
             {emoji} {story.reactions?.[emoji] ?? 0}
-          </button>
+          </motion.button>
         ))}
 
-        <button
+        <motion.button
+          whileTap={{ scale: 1.2 }}
+          whileHover={{ scale: 1.1 }}
           onClick={handleSave}
-          className="text-lg text-gray-500 hover:text-[#7D0A0A]"
+          className="text-2xl text-gray-500 hover:text-[#7D0A0A] ml-auto"
         >
           {isSaved ? <FaBookmark /> : <FaRegBookmark />}
-        </button>
+        </motion.button>
       </div>
     </motion.div>
   );
