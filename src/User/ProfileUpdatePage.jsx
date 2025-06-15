@@ -3,6 +3,7 @@ import { FaCamera } from "react-icons/fa";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
 import { useAuth } from "../context/AuthContex";
+import UpdateProfileLoading from "../Shared/Loading/UpdateProfileLoading";
 
 const ProfileUpdatePage = () => {
   const { currentUser } = useAuth();
@@ -68,7 +69,7 @@ const ProfileUpdatePage = () => {
   };
 
   if (loading || !formData) {
-    return <div className="text-center mt-10">Loading user data...</div>;
+    return <UpdateProfileLoading></UpdateProfileLoading>;
   }
 
   return (
