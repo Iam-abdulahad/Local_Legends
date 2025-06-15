@@ -5,6 +5,7 @@ import { db } from "../firebase/firebaseConfig";
 import { useAuth } from "../context/AuthContex";
 import { FaUserCircle } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
+import ProfileLoading from "../Shared/Loading/porfileLoading";
 
 const Profile = () => {
   const { currentUser } = useAuth();
@@ -33,7 +34,7 @@ const Profile = () => {
     fetchUserData();
   }, [currentUser]);
 
-  if (loading) return <p>Loading profile...</p>;
+  if (loading) return <ProfileLoading></ProfileLoading>;
 
   if (!userData) return <p>User data not found.</p>;
 
