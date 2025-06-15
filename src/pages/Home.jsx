@@ -7,7 +7,6 @@ import StoryList from "./Story/StoryLIst";
 const Home = () => {
   return (
     <div>
-      <HeroSection></HeroSection>
       <StoryList></StoryList>
       <CTASection></CTASection>
       <HowItWorks></HowItWorks>

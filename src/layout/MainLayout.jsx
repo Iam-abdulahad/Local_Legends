@@ -19,7 +19,7 @@ const MainLayout = () => {
       </main>
 
       {/* Right Sidebar (lg only) */}
-      <div className="hidden lg:flex w-72 bg-[#EAD196] rounded-s-lg shadow-md flex-col p-4 border-l border-[#BF3131]">
+      <div className="hidden lg:flex w-72 bg-[#BF3131] rounded-s-lg shadow-md flex-col p-4 border-l border-[#BF3131]">
         <RightSidebar />
       </div>
     </div>
