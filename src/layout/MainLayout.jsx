@@ -9,7 +9,7 @@ const MainLayout = () => {
       <TopbarMobile />
 
       {/* Left Sidebar (PC only) */}
-      <div className="hidden md:flex w-64 bg-[#EAD196] flex-col p-4 border-r border-[#BF3131]">
+      <div className="hidden md:flex w-64 bg-[#BF3131] flex-col p-4 border-r border-[#BF3131]">
         <LeftSidebar />
       </div>
 
