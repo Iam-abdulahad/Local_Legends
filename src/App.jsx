@@ -6,8 +6,6 @@ import MainLayout from "./layout/MainLayout";
 // Components
 import Footer from "./components/Footer";
 
-// Pages
-import Home from "./pages/Home";
 import Map from "./pages/Map";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -16,6 +14,7 @@ import Signup from "./Login/SignUp";
 import NotFound from "./pages/NotFound";
 import SubmitStory from "./pages/Story/SubmitStory";
 import StoryDetails from "./pages/Story/StoryDetails";
+import Home from "./pages/Home";
 
 function App() {
   return (

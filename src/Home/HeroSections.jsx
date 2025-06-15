@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import heroMap from "../../assets/Images/hero-map.png";
+import heroMap from "../assets/Images/hero-map.png"; // Ensure this path is correct
 
 const HeroSection = () => {
   return (

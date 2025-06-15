@@ -1,7 +1,7 @@
-import CTASection from "./Home/CTASections";
-import HeroSection from "./Home/HeroSections";
-import HowItWorks from "./Home/HowItWorks";
-import StoryCard from "./Story/StoryCard";
+// import CTASection from "./Home/CTASections";
+import CTASection from "../Home/CTASections";
+import HeroSection from "../Home/HeroSections";
+import HowItWorks from "../Home/HowItWorks";
 import StoryList from "./Story/StoryLIst";
 
 const Home = () => {
