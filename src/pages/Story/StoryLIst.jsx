@@ -4,6 +4,7 @@ import { db } from "../../firebase/firebaseConfig";
 import { motion } from "framer-motion";
 import StoryCard from "./StoryCard";
 import heroMap from "../../assets/Images/hero-map.png";
+import LoadingScreen from "../../Shared/Loading/LoadingScreen";
 
 const StoriesList = () => {
   const [stories, setStories] = useState([]);
@@ -30,9 +31,7 @@ const StoriesList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-black/80 to-[#7D0A0A]/60">
-        <div className="w-12 h-12 border-4 border-[#BF3131] border-t-transparent rounded-full animate-spin"></div>
-      </div>
+     <LoadingScreen></LoadingScreen>
     );
   }
 
