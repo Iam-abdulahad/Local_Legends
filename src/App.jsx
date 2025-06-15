@@ -15,6 +15,8 @@ import NotFound from "./pages/NotFound";
 import SubmitStory from "./pages/Story/SubmitStory";
 import StoryDetails from "./pages/Story/StoryDetails";
 import Home from "./pages/Home";
+import Profile from "./User/userProfile";
+import ProfileUpdatePage from "./User/ProfileUpdatePage";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/stories/:id" element={<StoryDetails />} />
+          <Route path="/profile" element={<Profile></Profile>} />
+          <Route path="/update-profile" element={<ProfileUpdatePage></ProfileUpdatePage>} />
         </Route>
 
         {/* Auth & Standalone pages */}
