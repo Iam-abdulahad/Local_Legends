@@ -10,7 +10,7 @@ const accountItems = [
   { label: "View Profile", path: "/profile", icon: <FaUser /> },
   { label: "Update Profile", path: "/update-profile", icon: <FaEdit /> },
   { label: "Saved Stories", path: "/saved-stories", icon: <FaBookmark /> },
-  { label: "Your Stories", path: "/your-stories", icon: <FaRegNewspaper /> },
+  { label: "My Stories", path: "/my-stories", icon: <FaRegNewspaper /> },
 ];
 
 const RightSidebar = () => {

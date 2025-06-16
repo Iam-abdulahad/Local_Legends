@@ -21,6 +21,7 @@ import Home from "./pages/Home";
 import Profile from "./User/userProfile";
 import ProfileUpdatePage from "./User/ProfileUpdatePage";
 import SavedStories from "./User/SavedStories";
+import MyStories from "./User/MyStories";
 
 const Intro = () => (
   <motion.div
@@ -83,6 +84,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/update-profile" element={<ProfileUpdatePage />} />
                 <Route path="/saved-stories" element={<SavedStories />} />
+                <Route path="/my-stories" element={<MyStories/>} />
 
               </Route>
 
