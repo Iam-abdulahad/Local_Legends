@@ -39,10 +39,15 @@ const StoryDetails = () => {
           setStory({ id: docSnap.id, ...data });
 
           if (currentUser?.uid) {
-            setIsSaved(
-              Array.isArray(data.savedBy) &&
-                data.savedBy.includes(currentUser.uid)
-            );
+            const userRef = doc(db, "users", currentUser.uid);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+              const userData = userSnap.data();
+              const saved = Array.isArray(userData.savedStories)
+                ? userData.savedStories
+                : [];
+              setIsSaved(saved.includes(docSnap.id));
+            }
           }
         }
       } catch (error) {
@@ -72,53 +77,77 @@ const StoryDetails = () => {
   const handleSave = async () => {
     if (!currentUser) return alert("Please log in to save stories.");
     try {
-      const storyRef = doc(db, "stories", id);
-      await updateDoc(storyRef, {
-        savedBy: isSaved
-          ? arrayRemove(currentUser.uid)
-          : arrayUnion(currentUser.uid),
+      const userRef = doc(db, "users", currentUser.uid);
+
+      await updateDoc(userRef, {
+        savedStories: isSaved ? arrayRemove(story.id) : arrayUnion(story.id),
       });
+
       setIsSaved(!isSaved);
     } catch (error) {
-      console.error("Error saving story:", error);
+      console.error("Error updating saved stories in user data:", error);
     }
   };
 
-  if (loading)
+  if (loading) return <StoryDetailLoading />;
+  if (!story) {
     return (
-    <StoryDetailLoading></StoryDetailLoading>
-    );
-
-  if (!story)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-[#7D0A0A] font-semibold text-xl">
+      <div className="min-h-screen flex items-center justify-center text-red-600 font-semibold text-xl">
         Story not found.
       </div>
     );
+  }
+
+  const { userInfo } = story;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-5xl mx-auto p-6 sm:p-8 my-8 bg-white rounded-2xl shadow-lg"
+      className="max-w-4xl mx-auto p-6 md:p-10 my-10 bg-white rounded-3xl shadow-xl border border-gray-100"
     >
-      <h1 className="text-3xl sm:text-4xl font-bold text-[#7D0A0A] mb-2">
+      {/* User Info */}
+      {userInfo && (
+        <div className="flex items-center gap-4 mb-6 border-b pb-4">
+          <img
+            src={userInfo[3]}
+            alt={userInfo[0]}
+            className="w-14 h-14 rounded-full object-cover border"
+          />
+          <div>
+            <h4 className="text-lg font-semibold text-gray-800">
+              {userInfo[0]}
+            </h4>
+            <p className="text-sm text-gray-500">{userInfo[1]}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Story Title */}
+      <h1 className="text-3xl md:text-4xl font-bold text-[#7D0A0A] mb-4">
         {story.title}
       </h1>
-      <p className="text-sm text-gray-500 mb-4 italic">
-        📍 Location: {story.location}
-      </p>
-      <p className="text-gray-800 whitespace-pre-line leading-relaxed mb-6">
+
+      {/* Location */}
+      {story.location && (
+        <p className="text-sm text-gray-500 mb-6 italic">
+          📍 Location: {story.location}
+        </p>
+      )}
+
+      {/* Story Content */}
+      <p className="text-gray-700 whitespace-pre-line leading-relaxed mb-6 text-[17px]">
         {story.story}
       </p>
 
+      {/* Tags */}
       {story.tags?.length > 0 && (
         <div className="mb-6 flex flex-wrap gap-2">
           {story.tags.map((tag, idx) => (
             <span
               key={idx}
-              className="bg-[#EAD196] text-[#7D0A0A] px-3 py-1 rounded-full text-sm font-medium"
+              className="bg-[#F3E8D9] text-[#7D0A0A] px-3 py-1 rounded-full text-sm font-medium"
             >
               #{tag}
             </span>
@@ -126,24 +155,28 @@ const StoryDetails = () => {
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-4 border-t pt-4">
+      {/* Reactions and Save */}
+      <div className="flex flex-wrap items-center gap-4 border-t pt-6">
         {emojiOptions.map((emoji) => (
           <motion.button
             whileTap={{ scale: 1.2 }}
             whileHover={{ scale: 1.1 }}
             key={emoji}
             onClick={() => handleReaction(emoji)}
-            className="text-2xl sm:text-3xl transition-all"
+            className="text-2xl sm:text-3xl text-gray-700 hover:text-[#7D0A0A] transition-all"
           >
             {emoji} {story.reactions?.[emoji] ?? 0}
           </motion.button>
         ))}
 
+        {/* Save Button */}
         <motion.button
           whileTap={{ scale: 1.2 }}
           whileHover={{ scale: 1.1 }}
           onClick={handleSave}
-          className="text-2xl text-gray-500 hover:text-[#7D0A0A] ml-auto"
+          className={`text-2xl ml-auto transition-colors duration-200 ${
+            isSaved ? "text-[#7D0A0A]" : "text-gray-400 hover:text-[#7D0A0A]"
+          }`}
         >
           {isSaved ? <FaBookmark /> : <FaRegBookmark />}
         </motion.button>

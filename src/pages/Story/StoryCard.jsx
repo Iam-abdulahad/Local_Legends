@@ -20,33 +20,38 @@ const StoryCard = ({ story }) => {
   useEffect(() => {
     if (!story || !story.id || !currentUser) return;
 
-    const checkReaction = async () => {
+    const fetchData = async () => {
       try {
-        const docRef = doc(db, "stories", story.id);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const data = docSnap.data();
+        // Check if reacted
+        const storyRef = doc(db, "stories", story.id);
+        const storySnap = await getDoc(storyRef);
+        if (storySnap.exists()) {
+          const data = storySnap.data();
           const reactions = Array.isArray(data.reactions) ? data.reactions : [];
-          const savedBy = Array.isArray(data.savedBy) ? data.savedBy : [];
-
           setHasReacted(reactions.includes(currentUser.uid));
-          setIsSaved(savedBy.includes(currentUser.uid));
+        }
+
+        // Check if saved (from user's own data)
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          const saved = Array.isArray(userData.savedStories)
+            ? userData.savedStories
+            : [];
+          setIsSaved(saved.includes(story.id));
         }
       } catch (error) {
-        console.error("Error checking reactions:", error);
+        console.error("Error loading story data:", error);
       }
     };
 
-    checkReaction();
+    fetchData();
   }, [currentUser, story]);
 
   const handleReaction = async () => {
     if (!currentUser) return alert("Please log in to react.");
-    if (!story?.id) return;
-
     const storyRef = doc(db, "stories", story.id);
-
     try {
       await updateDoc(storyRef, {
         reactions: hasReacted
@@ -55,21 +60,16 @@ const StoryCard = ({ story }) => {
       });
       setHasReacted(!hasReacted);
     } catch (error) {
-      console.error("Error updating reaction:", error);
+      console.error("Error reacting to story:", error);
     }
   };
 
   const handleSave = async () => {
-    if (!currentUser) return alert("Please log in to save stories.");
-    if (!story?.id) return;
-
-    const storyRef = doc(db, "stories", story.id);
-
+    if (!currentUser) return alert("Please log in to save.");
+    const userRef = doc(db, "users", currentUser.uid);
     try {
-      await updateDoc(storyRef, {
-        savedBy: isSaved
-          ? arrayRemove(currentUser.uid)
-          : arrayUnion(currentUser.uid),
+      await updateDoc(userRef, {
+        savedStories: isSaved ? arrayRemove(story.id) : arrayUnion(story.id),
       });
       setIsSaved(!isSaved);
     } catch (error) {
@@ -81,43 +81,55 @@ const StoryCard = ({ story }) => {
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="flex flex-col bg-[#EEE] shadow-sm border border-slate-200 rounded-lg overflow-hidden transition duration-300"
+      whileHover={{ scale: 1.01 }}
+      className="bg-white rounded-xl shadow-md border p-5 mb-6 w-full max-w-xl mx-auto transition"
     >
-      <div className="p-4 flex flex-col flex-1">
-        <h5 className="mb-2 text-slate-800 text-xl font-semibold">
-          {story.title || "Untitled Story"}
-        </h5>
-        <p className="text-slate-600 leading-relaxed font-light line-clamp-4">
-          {story.story || "No story content available."}
-        </p>
+      {/* Header: User Info */}
+      <div className="flex items-center mb-4">
+        <img
+          src={story.userInfo?.[3] || "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png"}
+          alt="User"
+          className="w-12 h-12 rounded-full object-cover border mr-3"
+        />
+        <div>
+          <h3 className="text-base font-semibold text-gray-800">
+            {story.userInfo?.[0] || "Unknown User"}
+          </h3>
+          <p className="text-xs text-gray-500">{new Date().toDateString()}</p>
+        </div>
+      </div>
 
-        <div className="mt-6 flex justify-between items-center">
-          <Link to={`/stories/${story.id}`}>
-            <button className="rounded-md bg-slate-800 py-2 px-4 text-sm text-white shadow-md hover:shadow-lg hover:bg-slate-700">
-              Read more
-            </button>
-          </Link>
+      {/* Body: Title & Story */}
+      <h2 className="text-lg font-bold text-gray-900 mb-2">
+        {story.title || "Untitled Story"}
+      </h2>
+      <p className="text-gray-700 leading-relaxed mb-4 line-clamp-5">
+        {story.story || "No story available."}
+      </p>
 
-          <div className="flex gap-3">
-            <button
-              onClick={handleReaction}
-              className={`transition text-lg ${
-                hasReacted ? "text-red-500" : "text-gray-500 hover:text-red-400"
-              }`}
-              aria-label="React to story"
-            >
-              <FaHeart />
-            </button>
+      {/* Footer: Actions */}
+      <div className="flex justify-between items-center pt-2 border-t">
+        <Link to={`/stories/${story.id}`}>
+          <button className="text-sm text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded shadow-sm">
+            Read more
+          </button>
+        </Link>
 
-            <button
-              onClick={handleSave}
-              className="text-gray-500 hover:text-[#7D0A0A] transition-colors text-lg"
-              aria-label="Save story"
-            >
-              {isSaved ? <FaBookmark /> : <FaRegBookmark />}
-            </button>
-          </div>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={handleReaction}
+            className={`text-xl transition ${
+              hasReacted ? "text-red-500" : "text-gray-500 hover:text-red-400"
+            }`}
+          >
+            <FaHeart />
+          </button>
+          <button
+            onClick={handleSave}
+            className="text-xl text-gray-500 hover:text-yellow-600 transition"
+          >
+            {isSaved ? <FaBookmark /> : <FaRegBookmark />}
+          </button>
         </div>
       </div>
     </motion.div>
