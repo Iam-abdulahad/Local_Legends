@@ -73,6 +73,7 @@ const SubmitStory = () => {
         currentUser.displayName || "Anonymous",
         currentUser.email || "No Email",
         currentUser.uid,
+        currentUser.photoURL || "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png",
       ];
 
       const docRef = await addDoc(collection(db, "stories"), {
