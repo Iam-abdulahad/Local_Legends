@@ -20,6 +20,7 @@ import StoryDetails from "./pages/Story/StoryDetails";
 import Home from "./pages/Home";
 import Profile from "./User/userProfile";
 import ProfileUpdatePage from "./User/ProfileUpdatePage";
+import SavedStories from "./User/SavedStories";
 
 const Intro = () => (
   <motion.div
@@ -81,6 +82,8 @@ function App() {
                 <Route path="/stories/:id" element={<StoryDetails />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/update-profile" element={<ProfileUpdatePage />} />
+                <Route path="/saved-stories" element={<SavedStories />} />
+
               </Route>
 
               {/* Auth & Standalone pages */}

@@ -5,35 +5,33 @@ import { db } from "../firebase/firebaseConfig";
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const [data, setData] = useState([]); // All Firestore data
+  const [allData, setAllData] = useState([]); // All Firestore data
   const [filteredData, setFilteredData] = useState([]); // For search/filter use
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(
-          collection(db, "yourCollectionName")
-        );
-        const docs = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setData(docs);
-        setFilteredData(docs);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const fetchAllStories = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, "stories"));
+      const storiesList = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAllData(storiesList);
+    } catch (error) {
+      console.error("Error loading stories:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
+  useEffect(() => {
+    fetchAllStories();
   }, []);
 
   // Example: Search Function
   const searchByKeyword = (keyword) => {
     const keywordLower = keyword.toLowerCase();
-    const filtered = data.filter((item) =>
+    const filtered = allData.filter((item) =>
       item.name.toLowerCase().includes(keywordLower)
     );
     setFilteredData(filtered);
@@ -41,7 +39,7 @@ export const DataProvider = ({ children }) => {
 
   return (
     <DataContext.Provider
-      value={{ data, filteredData, loading, searchByKeyword }}
+      value={{ allData, filteredData, loading, searchByKeyword }}
     >
       {children}
     </DataContext.Provider>
