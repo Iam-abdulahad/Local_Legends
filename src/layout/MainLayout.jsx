@@ -14,7 +14,7 @@ const MainLayout = () => {
       </div>
 
       {/* Main Feed */}
-      <main className="flex-1 overflow-y-auto px-4 py-6 mt-14 md:mt-0">
+      <main className="flex-1 overflow-y-auto">
         <Outlet />
       </main>
 

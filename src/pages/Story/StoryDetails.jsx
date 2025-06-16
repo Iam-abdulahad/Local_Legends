@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContex";
 import { db } from "../../firebase/firebaseConfig";
+import StoryDetailLoading from "../../Shared/Loading/StoryDetailLoading";
 
 const emojiOptions = ["❤️", "👍", "😂", "😮"];
 
@@ -85,14 +86,7 @@ const StoryDetails = () => {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#EEEEEE]">
-        <motion.div
-          className="w-16 h-16 border-4 border-[#7D0A0A] border-t-transparent rounded-full animate-spin"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-        />
-      </div>
+    <StoryDetailLoading></StoryDetailLoading>
     );
 
   if (!story)

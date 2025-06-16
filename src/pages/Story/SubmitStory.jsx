@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import { motion } from "framer-motion";
 import { getAuth } from "firebase/auth";
 
 const SubmitStory = () => {
-  const auth = getAuth  ();
+  const auth = getAuth();
   const currentUser = auth.currentUser;
+  const [loading, setLoading] = useState(false);
 
   if (!currentUser) {
     alert("Please log in to submit a story.");
@@ -22,7 +23,36 @@ const SubmitStory = () => {
     tags: "",
   });
 
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (currentUser) {
+      setFormData((prev) => ({
+        ...prev,
+        name: currentUser.displayName || "",
+        email: currentUser.email || "",
+      }));
+    }
+  }, [currentUser]);
+
+  const handleDetectLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        setFormData((prev) => ({
+          ...prev,
+          location: `Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)}`,
+        }));
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+        alert("Unable to retrieve your location.");
+      }
+    );
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,9 +69,16 @@ const SubmitStory = () => {
         .map((tag) => tag.trim().toLowerCase())
         .filter((tag) => tag.length > 0);
 
+      const userInfoArray = [
+        currentUser.displayName || "Anonymous",
+        currentUser.email || "No Email",
+        currentUser.uid,
+      ];
+
       const docRef = await addDoc(collection(db, "stories"), {
         ...formData,
         tags: tagsArray,
+        userInfo: userInfoArray,
         createdAt: serverTimestamp(),
         reactions: {
           "❤️": 0,
@@ -88,23 +125,6 @@ const SubmitStory = () => {
         transition={{ delay: 0.1, duration: 0.6 }}
         className="bg-[#EEEEEE] p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
       >
-        <div className="grid md:grid-cols-2 gap-4">
-          <InputField
-            label="Your Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-          <InputField
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Optional"
-          />
-        </div>
 
         <InputField
           label="Story Title"
@@ -122,6 +142,13 @@ const SubmitStory = () => {
           required
           placeholder="e.g., Sylhet, Rajshahi, or 'The Old Banyan Tree'"
         />
+        <button
+          type="button"
+          onClick={handleDetectLocation}
+          className="mt-2 text-sm text-blue-600 hover:underline"
+        >
+          📍 Detect My Current Location
+        </button>
 
         <InputField
           label="Tags"
