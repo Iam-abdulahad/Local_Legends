@@ -9,7 +9,7 @@ import MainLayout from "./layout/MainLayout";
 import Footer from "./components/Footer";
 
 // Pages
-import Map from "./pages/Map";
+import Map from "./pages/Map.jsx";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./Login/Login";
@@ -22,6 +22,7 @@ import Profile from "./User/userProfile";
 import ProfileUpdatePage from "./User/ProfileUpdatePage";
 import SavedStories from "./User/SavedStories";
 import MyStories from "./User/MyStories";
+import ExploreMap from "./pages/ExploreMap";
 
 const Intro = () => (
   <motion.div
@@ -78,6 +79,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/submit" element={<SubmitStory />} />
                 <Route path="/map" element={<Map />} />
+                <Route path="/explore-map" element={<ExploreMap />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/stories/:id" element={<StoryDetails />} />

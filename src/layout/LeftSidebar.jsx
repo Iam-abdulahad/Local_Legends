@@ -16,7 +16,7 @@ const navItems = [
   { label: "Home", path: "/", icon: <Home /> },
   { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard /> },
   { label: "Submit Story", path: "/submit", icon: <UploadCloud /> },
-  { label: "Explore Map", path: "/map", icon: <MapPin /> },
+  { label: "Explore Map", path: "/explore-map", icon: <MapPin /> },
   { label: "Saved Stories", path: "/saved", icon: <Bookmark /> },
   { label: "All Stories", path: "/stories", icon: <BookOpen /> },
   { label: "Community", path: "/community", icon: <Users /> },
