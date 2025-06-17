@@ -3,26 +3,26 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Layout
-import MainLayout from "./layout/MainLayout";
+import MainLayout from "./layout/MainLayout.jsx";
 
 // Components
-import Footer from "./components/Footer";
+import Footer from "./components/Footer.jsx";
 
 // Pages
 import Map from "./pages/Map.jsx";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Login from "./Login/Login";
-import Signup from "./Login/SignUp";
-import NotFound from "./pages/NotFound";
-import SubmitStory from "./pages/Story/SubmitStory";
-import StoryDetails from "./pages/Story/StoryDetails";
-import Home from "./pages/Home";
-import Profile from "./User/userProfile";
-import ProfileUpdatePage from "./User/ProfileUpdatePage";
-import SavedStories from "./User/SavedStories";
-import MyStories from "./User/MyStories";
-import ExploreMap from "./pages/ExploreMap";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Login from "./Login/Login.jsx";
+import Signup from "./Login/SignUp.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import SubmitStory from "./pages/Story/SubmitStory.jsx";
+import StoryDetails from "./pages/Story/StoryDetails.jsx";
+import Profile from "./User/userProfile.jsx";
+import ProfileUpdatePage from "./User/ProfileUpdatePage.jsx";
+import SavedStories from "./User/SavedStories.jsx";
+import MyStories from "./User/MyStories.jsx";
+import ExploreMap from "./pages/ExploreMap.jsx";
+import Home from "./Home/Home.jsx";
 
 const Intro = () => (
   <motion.div
