@@ -1,76 +1,121 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { collection, getDocs } from "firebase/firestore";
+import { useData } from "../context/DataContext";
+import { db } from "../firebase/firebaseConfig";
 
-const communityHighlights = [
-  {
-    name: "Ayesha Rahman",
-    role: "Top Storyteller of the Month",
-    image: "https://ui-avatars.com/",
-    story:
-      "Ayesha has contributed over 10 verified legends and inspired others to preserve local history.",
-  },
-  {
-    name: "Farhan Hossain",
-    role: "Legend Mapper",
-    image: "https://ui-avatars.com/",
-    story:
-      "Mapped 25+ historic locations and helped validate multiple submissions.",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Junaid Alam",
-    feedback:
-      "Local Legends brought me closer to my roots. I found stories I never knew existed about my village!",
-  },
-  {
-    name: "Sadia Karim",
-    feedback:
-      "This platform is a gift. Sharing my grandfather’s story made our entire family emotional.",
-  },
-];
+const defaultAvatar =
+  "https://www.svgrepo.com/show/384674/account-avatar-profile-user-11.svg";
 
 const CommunityPage = () => {
+  const { allData, loading: storiesLoading } = useData(); // from DataContext
+  const [topContributors, setTopContributors] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
+  const [loading, setLoading] = useState(true); // Combined loading
+
+  // Fetch testimonials from Firestore
+  useEffect(() => {
+    const fetchTestimonials = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "testimonials"));
+        const fetched = querySnapshot.docs.map((doc) => doc.data());
+        setTestimonials(fetched);
+      } catch (error) {
+        console.error("Error fetching testimonials:", error);
+      }
+    };
+
+    fetchTestimonials();
+  }, []);
+
+  // Calculate Top Storytellers
+  useEffect(() => {
+    if (allData && allData.length > 0) {
+      const userStoryCount = {};
+
+      allData.forEach((story) => {
+        const userInfo = story.userInfo;
+        if (userInfo && userInfo.length >= 4) {
+          const uid = userInfo[2];
+          const name = userInfo[0];
+          const img = userInfo[3];
+
+          if (!userStoryCount[uid]) {
+            userStoryCount[uid] = { count: 0, name, img };
+          }
+          userStoryCount[uid].count += 1;
+        }
+      });
+
+      const sorted = Object.entries(userStoryCount)
+        .sort((a, b) => b[1].count - a[1].count)
+        .slice(0, 3)
+        .map(([uid, data], index) => ({
+          name: data.name,
+          count: data.count,
+          role:
+            index === 0
+              ? "🥇 Top Storyteller"
+              : index === 1
+              ? "🥈 2nd Place Contributor"
+              : "🥉 3rd Place Contributor",
+          image: data.img || defaultAvatar,
+          story: `${data.name} has shared ${data.count} local stories.`,
+        }));
+
+      setTopContributors(sorted);
+      setLoading(false); // only when stories processed
+    }
+  }, [allData]);
+
+  if (loading || storiesLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-xl font-semibold text-[#7D0A0A]">
+        🔄 Loading Community Content...
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#EEEEEE] text-[#7D0A0A] min-h-screen py-12 px-4 md:px-12">
       <div className="max-w-6xl mx-auto">
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-8"
+          className="text-4xl md:text-5xl font-bold text-center mb-10"
         >
           🌟 Community Highlights & Testimonials
         </motion.h1>
 
-        {/* Highlights Section */}
+        {/* Top Storytellers */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6 }}
           className="grid md:grid-cols-2 gap-8"
         >
-          {communityHighlights.map((user, idx) => (
+          {topContributors.map((user, idx) => (
             <div
               key={idx}
-              className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-4 hover:shadow-xl transition"
+              className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row items-center gap-4 hover:shadow-xl transition"
             >
               <img
                 src={user.image}
+                onError={(e) => (e.target.src = defaultAvatar)}
                 alt={user.name}
-                className="w-24 h-24 rounded-full object-cover mx-auto md:mx-0"
+                className="w-24 h-24 rounded-full object-cover border-4 border-[#BF3131]"
               />
-              <div>
-                <h2 className="text-xl font-semibold">{user.name}</h2>
+              <div className="text-center md:text-left">
+                <h2 className="text-xl font-bold">{user.name}</h2>
                 <p className="text-sm italic text-[#BF3131]">{user.role}</p>
-                <p className="mt-2 text-sm">{user.story}</p>
+                <p className="mt-1 text-sm">{user.story}</p>
               </div>
             </div>
           ))}
         </motion.div>
 
-        {/* Testimonials Section */}
+        {/* Testimonials */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -48,3 +48,4 @@ export const DataProvider = ({ children }) => {
 
 // Custom hook
 export const useData = () => useContext(DataContext);
+export const useDataContext = () => useContext(DataContext);
