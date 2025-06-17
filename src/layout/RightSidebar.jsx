@@ -11,6 +11,7 @@ const accountItems = [
   { label: "Update Profile", path: "/update-profile", icon: <FaEdit /> },
   { label: "Saved Stories", path: "/saved-stories", icon: <FaBookmark /> },
   { label: "My Stories", path: "/my-stories", icon: <FaRegNewspaper /> },
+  { label: "Add Review", path: "/submit-review", icon: <FaEdit /> },
 ];
 
 const RightSidebar = () => {

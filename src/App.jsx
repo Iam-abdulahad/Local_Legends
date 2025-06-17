@@ -23,6 +23,8 @@ import SavedStories from "./User/SavedStories.jsx";
 import MyStories from "./User/MyStories.jsx";
 import ExploreMap from "./pages/ExploreMap.jsx";
 import Home from "./Home/Home.jsx";
+import CommunityPage from "./pages/CommunityPage.jsx";
+import SubmitReviewPage from "./User/SubmitReviewPage.jsx";
 
 const Intro = () => (
   <motion.div
@@ -81,6 +83,8 @@ function App() {
                 <Route path="/map" element={<Map />} />
                 <Route path="/explore-map" element={<ExploreMap />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/community" element={<CommunityPage />} />
+                <Route path="/submit-review" element={<SubmitReviewPage />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/stories/:id" element={<StoryDetails />} />
                 <Route path="/profile" element={<Profile />} />
