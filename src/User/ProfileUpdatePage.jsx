@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
-import { FaCamera } from "react-icons/fa";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/firebaseConfig";
-import { useAuth } from "../context/AuthContex";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+  writeBatch,
+} from "firebase/firestore";
 import UpdateProfileLoading from "../Shared/Loading/UpdateProfileLoading";
+import { useAuth } from "../context/AuthContex";
+import { db } from "../firebase/firebaseConfig";
 
 const ProfileUpdatePage = () => {
   const { currentUser } = useAuth();
-  const [formData, setFormData] = useState(null); // initially null
+  const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
-  // Fetch user data from Firestore
+  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       if (currentUser) {
@@ -36,7 +45,6 @@ const ProfileUpdatePage = () => {
         setLoading(false);
       }
     };
-
     fetchUserData();
   }, [currentUser]);
 
@@ -62,54 +70,103 @@ const ProfileUpdatePage = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // 👉 You can update user data in Firestore here using setDoc or updateDoc
-    console.log("Updated profile data to save:", formData);
+  const syncUserUpdates = async (uid, newData) => {
+    const collectionsToUpdate = [
+      { name: "stories", path: "userInfo" },
+      { name: "testimonials", path: "" }, // assuming this has uid directly
+    ];
+
+    for (const { name, path } of collectionsToUpdate) {
+      const snapshot = await getDocs(collection(db, name));
+      const batch = writeBatch(db);
+
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+
+        if (path === "userInfo" && Array.isArray(data.userInfo)) {
+          const userInfo = data.userInfo;
+
+          // Filter by UID at index 2
+          if (userInfo[2] === uid) {
+            const updatedUserInfo = [
+              newData.name,
+              newData.email,
+              uid, // keep UID same
+              newData.photoURL,
+            ];
+
+            batch.update(docSnap.ref, { userInfo: updatedUserInfo });
+          }
+        }
+
+        // For testimonials or flat user data
+        if (!path && data.uid === uid) {
+          batch.update(docSnap.ref, {
+            name: newData.name,
+            email: newData.email,
+          });
+        }
+      });
+
+      await batch.commit();
+    }
   };
 
-  if (loading || !formData) {
-    return <UpdateProfileLoading></UpdateProfileLoading>;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!currentUser || !formData.name || !formData.email) return;
+
+    try {
+      setUpdating(true);
+      const userRef = doc(db, "users", currentUser.uid);
+      await updateDoc(userRef, {
+        ...formData,
+        updatedAt: new Date(),
+      });
+
+      await syncUserUpdates(currentUser.uid, {
+        name: formData.name,
+        email: formData.email,
+        photoURL: formData.photoURL,
+      });
+
+      alert("Profile successfully updated!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile.");
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  if (loading || !formData) return <UpdateProfileLoading />;
 
   return (
     <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md border">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Update Profile</h2>
 
-      {/* Profile picture */}
+      {/* Profile picture (Image URL input) */}
       <div className="flex items-center gap-4 mb-6">
-        <div className="relative">
-          <img
-            src={
-              formData.photoURL ||
-              "https://via.placeholder.com/150x150.png?text=Profile"
-            }
-            className="w-24 h-24 rounded-full object-cover border"
-            alt="Profile"
-          />
-          <label className="absolute bottom-0 right-0 bg-gray-100 p-1 rounded-full cursor-pointer shadow">
-            <FaCamera />
-            <input
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    setFormData({ ...formData, photoURL: reader.result });
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
-            />
-          </label>
-        </div>
-
+        <img
+          src={
+            formData.photoURL ||
+            "https://via.placeholder.com/150x150.png?text=Profile"
+          }
+          className="w-24 h-24 rounded-full object-cover border"
+          alt="Profile"
+        />
         <div>
-          <p className="font-medium text-gray-700">{formData.name}</p>
-          <p className="text-sm text-gray-500">{formData.email}</p>
+          <label className="block font-medium text-sm text-gray-700">
+            Image URL
+          </label>
+          <input
+            type="url"
+            name="photoURL"
+            value={formData.photoURL}
+            onChange={handleChange}
+            className="border p-2 rounded w-full mt-1"
+            placeholder="https://your-image-host.com/image.jpg"
+          />
         </div>
       </div>
 
@@ -117,9 +174,7 @@ const ProfileUpdatePage = () => {
         {/* Basic Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Name
-            </label>
+            <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               name="name"
@@ -130,9 +185,7 @@ const ProfileUpdatePage = () => {
             />
           </div>
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Email
-            </label>
+            <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
               name="email"
@@ -143,9 +196,7 @@ const ProfileUpdatePage = () => {
             />
           </div>
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Phone
-            </label>
+            <label className="block text-sm font-medium">Phone</label>
             <input
               type="tel"
               name="phone"
@@ -155,9 +206,7 @@ const ProfileUpdatePage = () => {
             />
           </div>
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Gender
-            </label>
+            <label className="block text-sm font-medium">Gender</label>
             <select
               name="gender"
               value={formData.gender}
@@ -171,9 +220,7 @@ const ProfileUpdatePage = () => {
             </select>
           </div>
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Birthday
-            </label>
+            <label className="block text-sm font-medium">Birthday</label>
             <input
               type="date"
               name="birthday"
@@ -183,9 +230,7 @@ const ProfileUpdatePage = () => {
             />
           </div>
           <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Location
-            </label>
+            <label className="block text-sm font-medium">Location</label>
             <input
               type="text"
               name="location"
@@ -198,9 +243,7 @@ const ProfileUpdatePage = () => {
 
         {/* Bio */}
         <div>
-          <label className="block font-medium text-sm text-gray-700">
-            About/Bio
-          </label>
+          <label className="block text-sm font-medium">About/Bio</label>
           <textarea
             name="bio"
             rows="4"
@@ -210,50 +253,35 @@ const ProfileUpdatePage = () => {
           ></textarea>
         </div>
 
-        {/* Social Media Links */}
+        {/* Social Links */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Facebook
-            </label>
-            <input
-              type="url"
-              name="facebook"
-              value={formData.facebook}
-              onChange={handleChange}
-              className="w-full border p-2 rounded mt-1"
-              placeholder="https://facebook.com/username"
-            />
-          </div>
-          <div>
-            <label className="block font-medium text-sm text-gray-700">
-              Twitter
-            </label>
-            <input
-              type="url"
-              name="twitter"
-              value={formData.twitter}
-              onChange={handleChange}
-              className="w-full border p-2 rounded mt-1"
-              placeholder="https://twitter.com/username"
-            />
-          </div>
-          <div>
-            <label className="block font-medium text-sm text-gray-700">
-              LinkedIn
-            </label>
-            <input
-              type="url"
-              name="linkedin"
-              value={formData.linkedin}
-              onChange={handleChange}
-              className="w-full border p-2 rounded mt-1"
-              placeholder="https://linkedin.com/in/username"
-            />
-          </div>
+          <input
+            name="facebook"
+            placeholder="Facebook URL"
+            value={formData.facebook}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            type="url"
+          />
+          <input
+            name="twitter"
+            placeholder="Twitter URL"
+            value={formData.twitter}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            type="url"
+          />
+          <input
+            name="linkedin"
+            placeholder="LinkedIn URL"
+            value={formData.linkedin}
+            onChange={handleChange}
+            className="w-full border p-2 rounded"
+            type="url"
+          />
         </div>
 
-        {/* Skills / Interests */}
+        {/* Skills */}
         <div>
           <label className="block font-medium text-sm text-gray-700 mb-1">
             Skills / Interests
@@ -286,17 +314,18 @@ const ProfileUpdatePage = () => {
         {/* Actions */}
         <div className="flex justify-end gap-4 pt-4">
           <button
-            type="button"
-            onClick={() => setFormData(userData)} // reset
+            type="reset"
+            onClick={() => window.location.reload()}
             className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
           >
             Cancel
           </button>
           <button
             type="submit"
+            disabled={updating}
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow"
           >
-            Save Changes
+            {updating ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </form>
