@@ -12,10 +12,12 @@ import { useAuth } from "../context/AuthContex";
 import { db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { UploadCloud } from "lucide-react";
 
 const accountItems = [
   { label: "View Profile", path: "/profile", icon: <FaUser /> },
   { label: "Update Profile", path: "/update-profile", icon: <FaEdit /> },
+  { label: "Submit Story", path: "/submit", icon: <UploadCloud /> },
   { label: "Saved Stories", path: "/saved-stories", icon: <FaBookmark /> },
   { label: "My Stories", path: "/my-stories", icon: <FaRegNewspaper /> },
   { label: "Add Review", path: "/submit-review", icon: <FaEdit /> },
@@ -137,7 +139,7 @@ const RightSidebar = () => {
         <li>
           <button
             onClick={deleteAccount}
-            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-800/40 text-red-300 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-800/40 transition-all duration-200"
           >
             <FaTrashAlt className="text-lg" />
             <span className="text-base">Delete Account</span>
