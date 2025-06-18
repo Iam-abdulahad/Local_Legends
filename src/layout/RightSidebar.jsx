@@ -1,5 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
-import { FaUser, FaEdit, FaBookmark, FaRegNewspaper } from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  FaUser,
+  FaEdit,
+  FaBookmark,
+  FaRegNewspaper,
+  FaSignOutAlt,
+  FaTrashAlt,
+} from "react-icons/fa";
 import defaultAvatar from "../assets/icon/account.png";
 import { useAuth } from "../context/AuthContex";
 import { db } from "../firebase/firebaseConfig";
@@ -16,7 +23,8 @@ const accountItems = [
 
 const RightSidebar = () => {
   const location = useLocation();
-   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const { currentUser, logout, deleteAccount } = useAuth();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -36,19 +44,51 @@ const RightSidebar = () => {
         } finally {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     };
 
     fetchUserData();
   }, [currentUser]);
 
-  if (loading) return <p>Loading....</p>;
+  if (loading) return <p className="text-white">Loading...</p>;
 
-  if (!userData) return <p>User data not found.</p>;
+  // If not logged in, show Login & Signup buttons
+  if (!currentUser) {
+    return (
+      <aside className="text-white space-y-4">
+        <div className="text-center">
+          <img
+            src={defaultAvatar}
+            alt="Guest avatar"
+            className="w-16 h-16 mx-auto rounded-full border-2 border-[#EAD196]"
+          />
+          <p className="mt-2 font-semibold">Welcome, Guest!</p>
+          <p className="text-sm text-[#EAD196]">Please log in</p>
+        </div>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[#EAD196] text-[#7D0A0A] px-4 py-2 rounded hover:bg-[#e2bd66]"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => navigate("/signup")}
+            className="border border-[#EAD196] text-[#EAD196] px-4 py-2 rounded hover:bg-[#7D0A0A]/30"
+          >
+            Sign Up
+          </button>
+        </div>
+      </aside>
+    );
+  }
 
+  // If logged in, show user info + menu
   return (
     <aside className="text-white">
-      {/* 👤 User Info Header */}
+      {/* User Info Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#EAD196]">
         <img
           src={userData?.photoURL || defaultAvatar}
@@ -56,9 +96,7 @@ const RightSidebar = () => {
           className="w-10 h-10 rounded-full object-cover border-2 border-[#EAD196]"
         />
         <div>
-          <p className="font-semibold text-lg">
-            {userData.name || "Guest"}
-          </p>
+          <p className="font-semibold text-lg">{userData?.name || "User"}</p>
           <p className="text-sm text-[#EAD196]">Logged In</p>
         </div>
       </div>
@@ -83,6 +121,28 @@ const RightSidebar = () => {
             </li>
           );
         })}
+
+        {/* 🔓 Sign Out */}
+        <li>
+          <button
+            onClick={logout}
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-600/40 transition-all duration-200"
+          >
+            <FaSignOutAlt className="text-lg" />
+            <span className="text-base">Sign Out</span>
+          </button>
+        </li>
+
+        {/* ❌ Delete Account */}
+        <li>
+          <button
+            onClick={deleteAccount}
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-800/40 text-red-300 transition-all duration-200"
+          >
+            <FaTrashAlt className="text-lg" />
+            <span className="text-base">Delete Account</span>
+          </button>
+        </li>
       </ul>
     </aside>
   );

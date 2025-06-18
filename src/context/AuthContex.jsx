@@ -5,8 +5,9 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  deleteUser,
 } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 import Swal from "sweetalert2";
 import { auth, db } from "../firebase/firebaseConfig"; // add db import
 
@@ -74,6 +75,55 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Delete account
+
+  const deleteAccount = async () => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    return Swal.fire({
+      icon: "error",
+      title: "No user found",
+      text: "You must be logged in to delete your account.",
+    });
+  }
+
+  const confirm = await Swal.fire({
+    title: "Are you sure?",
+    text: "This action will permanently delete your account!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Yes, delete it!",
+  });
+
+  if (confirm.isConfirmed) {
+    try {
+      // Delete Firestore document
+      await deleteDoc(doc(db, "users", user.uid));
+
+      // Delete Firebase auth user
+      await deleteUser(user);
+
+      Swal.fire({
+        icon: "success",
+        title: "Account Deleted",
+        text: "Your account has been deleted successfully.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Failed to delete account",
+        text: error.message,
+      });
+    }
+  }
+};
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
@@ -101,6 +151,7 @@ export const AuthProvider = ({ children }) => {
         userData, // Firestore user document
         loginWithGoogle,
         logout,
+        deleteAccount,
         loading,
       }}
     >
