@@ -12,12 +12,15 @@ import {
 import UpdateProfileLoading from "../Shared/Loading/UpdateProfileLoading";
 import { useAuth } from "../context/AuthContex";
 import { db } from "../firebase/firebaseConfig";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const ProfileUpdatePage = () => {
   const { currentUser } = useAuth();
   const [formData, setFormData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch user data
   useEffect(() => {
@@ -114,7 +117,14 @@ const ProfileUpdatePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!currentUser || !formData.name || !formData.email) return;
+    if (!currentUser || !formData.name || !formData.email) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill in all required fields.",
+      });
+      return;
+    }
 
     try {
       setUpdating(true);
@@ -130,10 +140,21 @@ const ProfileUpdatePage = () => {
         photoURL: formData.photoURL,
       });
 
-      alert("Profile successfully updated!");
+      await Swal.fire({
+        icon: "success",
+        title: "Profile Updated!",
+        text: "Your profile has been successfully updated.",
+        confirmButtonColor: "#3085d6",
+      });
+
+      navigate("/profile");
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile.");
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Something went wrong while updating your profile. Please try again.",
+      });
     } finally {
       setUpdating(false);
     }
