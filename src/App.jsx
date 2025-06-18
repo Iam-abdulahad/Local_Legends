@@ -25,6 +25,7 @@ import ExploreMap from "./pages/ExploreMap.jsx";
 import Home from "./Home/Home.jsx";
 import CommunityPage from "./pages/CommunityPage.jsx";
 import SubmitReviewPage from "./User/SubmitReviewPage.jsx";
+import SearchPage from "./pages/Story/SearchPage.jsx";
 
 const Intro = () => (
   <motion.div
@@ -86,6 +87,7 @@ function App() {
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/submit-review" element={<SubmitReviewPage />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/search" element={<SearchPage />} />
                 <Route path="/stories/:id" element={<StoryDetails />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/update-profile" element={<ProfileUpdatePage />} />

@@ -6,11 +6,10 @@ import { db } from "../firebase/firebaseConfig";
 const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {
-  const [allData, setAllData] = useState([]); 
-  const [filteredData, setFilteredData] = useState([]); 
+  const [allData, setAllData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
- 
   const fetchAllStories = async () => {
     try {
       setLoading(true);
@@ -32,14 +31,43 @@ export const DataProvider = ({ children }) => {
     fetchAllStories();
   }, []);
 
-  // 🔍 Search stories by keyword (title or story)
+  const formatDate = (timestamp) => {
+    try {
+      if (!timestamp || !timestamp.toDate) return "";
+      const date = timestamp.toDate();
+      return date.toLocaleDateString("bn-BD", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    } catch {
+      return "";
+    }
+  };
+
   const searchByKeyword = (keyword) => {
-    const keywordLower = keyword.toLowerCase();
-    const filtered = allData.filter(
-      (item) =>
-        item.title?.toLowerCase().includes(keywordLower) ||
-        item.story?.toLowerCase().includes(keywordLower)
-    );
+    const lower = keyword.toLowerCase();
+
+    const filtered = allData.filter((story) => {
+      const title = story.title?.toLowerCase() || "";
+      const storyText = story.story?.toLowerCase() || "";
+      const tags = Array.isArray(story.tags)
+        ? story.tags.map((tag) => tag.toLowerCase()).join(" ")
+        : "";
+      const name = story.name?.toLowerCase() || "";
+      const location = story.location?.toLowerCase() || "";
+      const createdDate = formatDate(story.createdAt).toLowerCase();
+
+      return (
+        title.includes(lower) ||
+        storyText.includes(lower) ||
+        tags.includes(lower) ||
+        name.includes(lower) ||
+        location.includes(lower) ||
+        createdDate.includes(lower)
+      );
+    });
+
     setFilteredData(filtered);
   };
 

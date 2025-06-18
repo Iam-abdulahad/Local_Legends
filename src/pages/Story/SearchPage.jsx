@@ -1,0 +1,48 @@
+import StoryCard from "./StoryCard";
+import { useState, useEffect } from "react";
+import { useData } from "../../context/DataContext";
+import SearchInput from "./SearchInput";
+
+const SearchPage = () => {
+  const { filteredData } = useData();
+  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [localLoading, setLocalLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    document.title = searchTriggered
+      ? `Search Results (${filteredData.length}) - Local Legends`
+      : "Search Stories - Local Legends";
+  }, [searchTriggered, filteredData]);
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-6">
+      <h1 className="text-3xl font-bold text-center mb-4">Search Stories</h1>
+      <SearchInput
+        setSearchTriggered={setSearchTriggered}
+        setLocalLoading={setLocalLoading}
+        setError={setError}
+      />
+
+      {error && <div className="text-center text-red-600 my-4">{error}</div>}
+
+      {!searchTriggered ? (
+        <p className="text-center text-gray-400 mt-10">
+          Start typing to search stories.
+        </p>
+      ) : localLoading ? (
+        <p className="text-center py-10">Searching...</p>
+      ) : filteredData.length === 0 ? (
+        <p className="text-center text-gray-500 mt-6">No stories found.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+          {filteredData.map((story) => (
+            <StoryCard key={story.id} story={story} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchPage;
