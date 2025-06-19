@@ -14,7 +14,6 @@ import {
 
 const navItems = [
   { label: "Home", path: "/", icon: <Home /> },
-  { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard /> },
   { label: "Explore Map", path: "/explore-map", icon: <MapPin /> },
   { label: "All Stories", path: "/stories", icon: <BookOpen /> },
   { label: "Community", path: "/community", icon: <Users /> },
