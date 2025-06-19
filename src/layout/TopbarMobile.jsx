@@ -32,7 +32,7 @@ const TopbarMobile = () => {
           {leftOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
 
-        <h1 className="text-xl font-semibold tracking-wide">Local Legends</h1>
+        <h1 className="text-xl font-semibold font-[cursive] italic tracking-wide">Local Legends</h1>
 
         <button
           onClick={
