@@ -26,6 +26,8 @@ import Home from "./Home/Home.jsx";
 import CommunityPage from "./pages/CommunityPage.jsx";
 import SubmitReviewPage from "./User/SubmitReviewPage.jsx";
 import SearchPage from "./pages/Story/SearchPage.jsx";
+import StoriesList from "./pages/Story/StoryLIst.jsx";
+import TagFilteredStories from "./pages/Story/TagFilteredStories.jsx";
 
 const Intro = () => (
   <motion.div
@@ -83,6 +85,7 @@ function App() {
                 <Route path="/submit" element={<SubmitStory />} />
                 <Route path="/map" element={<Map />} />
                 <Route path="/explore-map" element={<ExploreMap />} />
+                <Route path="/stories" element={<StoriesList />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/community" element={<CommunityPage />} />
                 <Route path="/submit-review" element={<SubmitReviewPage />} />
@@ -93,6 +96,8 @@ function App() {
                 <Route path="/update-profile" element={<ProfileUpdatePage />} />
                 <Route path="/saved-stories" element={<SavedStories />} />
                 <Route path="/my-stories" element={<MyStories/>} />
+                <Route path="/tags/:tagName" element={<TagFilteredStories />} />
+
 
               </Route>
 

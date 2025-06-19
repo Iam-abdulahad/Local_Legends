@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useDataContext } from "../context/DataContext";
 import {
   Home,
   MapPin,
@@ -7,6 +9,7 @@ import {
   LayoutDashboard,
   Users,
   BookOpen,
+  Tag,
 } from "lucide-react";
 
 const navItems = [
@@ -21,32 +24,67 @@ const navItems = [
 
 const LeftSidebar = () => {
   const location = useLocation();
+  const { allData } = useDataContext();
+  const [tags, setTags] = useState([]);
+
+  useEffect(() => {
+    const allTags = new Set();
+    allData.forEach((story) => {
+      if (Array.isArray(story.tags)) {
+        story.tags.forEach((tag) => allTags.add(tag));
+      }
+    });
+
+    setTags(Array.from(allTags).slice(0, 20));
+  }, [allData]);
 
   return (
-    <aside className="space-y-6 p-4 text-white">
-      <h1 className="text-2xl font-bold mb-8 tracking-wide font-[cursive] italic">
-        Local Legends
-      </h1>
+    <aside className="h-screen overflow-y-auto scrollbar-hide p-4  text-white flex flex-col justify-between">
+      <div className="space-y-6">
+        <h1 className="text-2xl font-bold mb-6 tracking-wide font-[cursive] italic">
+          Local Legends
+        </h1>
 
-      <nav className="space-y-3">
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
-                isActive
-                  ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"
-                  : "hover:bg-[#7D0A0A]/30"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="text-base">{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
+        {/* Nav */}
+        <nav className="space-y-3">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"
+                    : "hover:bg-[#EAD196]/20"
+                }`}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="text-base">{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Popular Tags */}
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold flex items-center gap-2 mb-2">
+            <Tag className="w-5 h-5" />
+            Popular Tags
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {tags.map((tag) => (
+              <Link
+                key={tag}
+                to={`/tags/${encodeURIComponent(tag)}`}
+                className="bg-[#BF3131] hover:bg-[#BF3131]/80 text-white px-3 py-1 rounded-full text-sm transition"
+              >
+                #{tag}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
     </aside>
   );
 };
