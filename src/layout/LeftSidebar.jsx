@@ -22,7 +22,7 @@ const navItems = [
   { label: "Contact", path: "/contact", icon: <Mail /> },
 ];
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ onLinkClick }) => {
   const location = useLocation();
   const { allData } = useDataContext();
   const [tags, setTags] = useState([]);
@@ -53,6 +53,7 @@ const LeftSidebar = () => {
               <Link
                 key={item.path}
                 to={item.path}
+                onClick={onLinkClick}
                 className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                   isActive
                     ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"

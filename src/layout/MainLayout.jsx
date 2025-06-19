@@ -6,20 +6,21 @@ import { Outlet } from "react-router-dom";
 const MainLayout = () => {
   return (
     <div className="flex h-screen bg-[#EEEEEE] text-[#7D0A0A] relative">
+      {/* Mobile Topbar with own sidebars */}
       <TopbarMobile />
 
-      {/* Left Sidebar (PC only) */}
-      <div className="hidden md:flex w-64 bg-[#7D0A0A] flex-col p-4 border-r border-[#BF3131]">
+      {/* Left Sidebar (Desktop Only) */}
+      <div className="hidden md:flex w-64 bg-[#7D0A0A] flex-col p-4">
         <LeftSidebar />
       </div>
 
       {/* Main Feed */}
-      <main className="flex-1 overflow-y-auto scrollbar-hide">
+      <main className="flex-1 overflow-y-auto scrollbar-hide bg-[#7D0A0A] md:pt-0 pt-[60px]">
         <Outlet />
       </main>
 
-      {/* Right Sidebar (lg only) */}
-      <div className="hidden lg:flex w-72 bg-[#7D0A0A] rounded-s-lg shadow-md flex-col p-4 border-l border-[#BF3131]">
+      {/* Right Sidebar (Large Screens Only) */}
+      <div className="hidden lg:flex w-72 bg-[#7D0A0A] flex-col p-4 md:pt-4 pt-[60px]">
         <RightSidebar />
       </div>
     </div>

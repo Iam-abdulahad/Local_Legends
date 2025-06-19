@@ -9,9 +9,6 @@ import {
 } from "react-icons/fa";
 import defaultAvatar from "../assets/icon/account.png";
 import { useAuth } from "../context/AuthContex";
-import { db } from "../firebase/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import { UploadCloud } from "lucide-react";
 
 const accountItems = [
@@ -23,38 +20,10 @@ const accountItems = [
   { label: "Add Review", path: "/submit-review", icon: <FaEdit /> },
 ];
 
-const RightSidebar = () => {
+const RightSidebar = ({ onLinkClick }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { currentUser, logout, deleteAccount } = useAuth();
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (currentUser?.uid) {
-        try {
-          const docRef = doc(db, "users", currentUser.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserData(docSnap.data());
-          } else {
-            console.log("No such user profile!");
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [currentUser]);
-
-  if (loading) return <p className="text-white">Loading...</p>;
+  const {currentUser, userData, logout, deleteAccount } = useAuth();
 
   // If not logged in, show Login & Signup buttons
   if (!currentUser) {
@@ -110,7 +79,8 @@ const RightSidebar = () => {
           return (
             <li key={item.path}>
               <Link
-                to={item.path}
+                to={item.path}              
+                onClick={onLinkClick}
                 className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                   isActive
                     ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"
