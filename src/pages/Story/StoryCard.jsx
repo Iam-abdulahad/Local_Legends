@@ -87,7 +87,10 @@ const StoryCard = ({ story }) => {
       {/* Header: User Info */}
       <div className="flex items-center mb-4">
         <img
-          src={story.userInfo?.[3] || "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png"}
+          src={
+            story.userInfo?.[3] ||
+            "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png"
+          }
           alt="User"
           className="w-12 h-12 rounded-full object-cover border mr-3"
         />
@@ -95,7 +98,17 @@ const StoryCard = ({ story }) => {
           <h3 className="text-base font-semibold text-gray-800">
             {story.userInfo?.[0] || "Unknown User"}
           </h3>
-          <p className="text-xs text-gray-500">{new Date().toDateString()}</p>
+          <p className="text-xs text-gray-500">
+            {story.createdAt
+              ? new Date(story.createdAt.seconds * 1000).toLocaleString(
+                  "en-US",
+                  {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                  }
+                )
+              : "Unknown date"}
+          </p>
         </div>
       </div>
 
