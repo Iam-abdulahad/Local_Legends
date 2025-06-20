@@ -80,7 +80,7 @@ const Profile = () => {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 px-4">
-      <div className="bg-white rounded-3xl shadow-lg p-6 md:p-10 flex flex-col md:flex-row gap-8">
+      <div className="bg-[#F2EFE7] rounded-3xl shadow-lg p-6 md:p-10 flex flex-col md:flex-row gap-8">
         {/* Profile Image */}
         <div className="flex-shrink-0 w-full md:w-1/3 text-center">
           {photoURL ? (
@@ -153,7 +153,7 @@ const Profile = () => {
               onClick={() =>
                 navigate("/update-profile", { state: { userData } })
               }
-              className="bg-[#7D0A0A] hover:bg-[#BF3131] text-white font-semibold px-6 py-2 rounded-lg shadow"
+              className="bg-[#F2EFE7] hover:bg-[#BF3131] text-gray-900 font-semibold px-6 py-2 rounded-lg shadow"
             >
               Edit Profile
             </button>

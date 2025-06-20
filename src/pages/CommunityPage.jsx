@@ -77,7 +77,7 @@ const CommunityPage = () => {
   }
 
   return (
-    <div className="bg-[#EEEEEE] text-[#7D0A0A] min-h-screen py-12 px-4 md:px-12">
+    <div className="bg-[#F2EFE7] text-[#7D0A0A] min-h-screen py-12 px-4 md:px-12">
       <div className="max-w-6xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: -30 }}
@@ -98,7 +98,7 @@ const CommunityPage = () => {
           {topContributors.map((user, idx) => (
             <div
               key={idx}
-              className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row items-center gap-4 hover:shadow-xl transition"
+              className="bg-[#F2EFE7] shadow-lg rounded-2xl p-6 flex flex-col md:flex-row items-center gap-4 hover:shadow-xl transition"
             >
               <img
                 src={user.image}

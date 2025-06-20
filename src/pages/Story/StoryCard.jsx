@@ -82,7 +82,7 @@ const StoryCard = ({ story }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.01 }}
-      className="bg-white rounded-xl shadow-md border p-5 mb-6 w-full max-w-xl mx-auto transition"
+      className="bg-gray-200 rounded-xl shadow-md border p-5 mb-6 w-full max-w-xl mx-auto transition"
     >
       {/* Header: User Info */}
       <div className="flex items-center mb-4">
@@ -123,7 +123,7 @@ const StoryCard = ({ story }) => {
       {/* Footer: Actions */}
       <div className="flex justify-between items-center pt-2 border-t">
         <Link to={`/stories/${story.id}`}>
-          <button className="text-sm text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded shadow-sm">
+          <button className="text-sm text-gray-100 bg-[#0ABAB5] hover:bg-slate-700 px-4 py-2 rounded shadow-sm">
             Read more
           </button>
         </Link>

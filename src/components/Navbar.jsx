@@ -32,7 +32,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="bg-[#7D0A0A] text-[#EAD196] px-4 py-3 shadow-md">
+    <nav className="bg-[#F2EFE7] text-[#EAD196] px-4 py-3 shadow-md">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="text-xl font-bold tracking-wide">
           Local Legends
@@ -85,7 +85,7 @@ const Navbar = () => {
               </button>
 
               {dropdownOpen && (
-                <ul className="absolute right-0 mt-2 w-44 bg-white text-[#7D0A0A] rounded-lg shadow-lg py-2 z-50">
+                <ul className="absolute right-0 mt-2 w-44 bg-[#F2EFE7] text-[#7D0A0A] rounded-lg shadow-lg py-2 z-50">
                   <li>
                     <Link
                       to="/profile"

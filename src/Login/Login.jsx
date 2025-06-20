@@ -60,10 +60,10 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="flex items-center justify-center bg-[#EEEEEE] p-6">
+    <div className="flex items-center justify-center bg-[#F2EFE7] p-6">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md"
+        className="bg-[#F2EFE7] p-8 rounded-2xl shadow-xl w-full max-w-md"
       >
         <h2 className="text-3xl font-bold text-center text-[#7D0A0A] mb-6">
           Login
@@ -99,7 +99,7 @@ const handleSubmit = async (e) => {
           className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
             loading
               ? "bg-[#BF3131]/70 cursor-not-allowed"
-              : "bg-[#7D0A0A] hover:bg-[#BF3131]"
+              : "bg-[#F2EFE7] hover:bg-[#BF3131]"
           } text-[#EAD196]`}
         >
           {loading ? (

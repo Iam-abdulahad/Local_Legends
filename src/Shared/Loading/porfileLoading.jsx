@@ -1,7 +1,7 @@
 const ProfileLoading = () => {
   return (
     <div className="flex flex-col items-center justify-center px-4 py-10">
-      <div className="animate-pulse bg-white shadow-lg rounded-2xl p-6 w-full max-w-2xl">
+      <div className="animate-pulse bg-[#F2EFE7] shadow-lg rounded-2xl p-6 w-full max-w-2xl">
         {/* Avatar & Name Section */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6">
           <div className="w-32 h-32 bg-gray-200 rounded-full mb-4 sm:mb-0"></div>

@@ -24,7 +24,7 @@ const CTASection = () => {
 
           <Link
             to="/submit-story"
-            className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-[#7D0A0A] hover:bg-[#BF3131] text-white rounded-full text-lg font-semibold shadow-md transition-all duration-300 group"
+            className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-[#F2EFE7] hover:bg-[#BF3131] text-gray-900 rounded-full text-lg font-semibold shadow-md transition-all duration-300 group"
           >
             Submit Your Story
             <ArrowRightCircle className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -48,7 +48,7 @@ const CTASection = () => {
 
       {/* Decorative Element */}
       <div className="absolute top-0 left-0 w-40 h-40 bg-[#BF3131]/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#7D0A0A]/10 rounded-full blur-2xl animate-pulse" />
+      <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#F2EFE7]/10 rounded-full blur-2xl animate-pulse" />
     </section>
   );
 };

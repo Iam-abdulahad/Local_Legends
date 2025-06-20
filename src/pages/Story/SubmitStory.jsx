@@ -109,7 +109,7 @@ const SubmitStory = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
+    <div className="bg-[#FFEDF3] p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
       <motion.h1
         className="text-3xl md:text-4xl font-extrabold text-[#7D0A0A] mb-6 text-center"
         initial={{ opacity: 0, y: 20 }}
@@ -124,7 +124,7 @@ const SubmitStory = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.6 }}
-        className="bg-[#EEEEEE] p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
+        className="bg-[#F2EFE7] p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
       >
 
         <InputField
@@ -180,7 +180,7 @@ const SubmitStory = () => {
           className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
             loading
               ? "bg-[#BF3131]/70 cursor-not-allowed"
-              : "bg-[#7D0A0A] hover:bg-[#BF3131]"
+              : "bg-[#F2EFE7] hover:bg-[#BF3131]"
           } text-[#EAD196]`}
         >
           {loading ? (

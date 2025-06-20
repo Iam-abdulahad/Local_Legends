@@ -22,7 +22,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="bg-[#EEEEEE] text-[#7D0A0A] py-20 px-4 md:px-8">
+    <section className="bg-[#F2EFE7] text-[#7D0A0A] py-20 px-4 md:px-8">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-extrabold mb-12">
           How It Works
@@ -32,7 +32,7 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
+              className="bg-[#F2EFE7] rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center"
             >
               <div className="mb-4">{step.icon}</div>
               <h3 className="text-2xl font-bold mb-2">{step.title}</h3>

@@ -3,12 +3,12 @@ import heroImg from "../assets/Images/about-illustration.jpg";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-[#EEEEEE] px-6 py-12 flex flex-col items-center justify-center">
+    <div className="min-h-screen bg-[#F2EFE7] px-6 py-12 flex flex-col items-center justify-center">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2"
+        className="max-w-6xl w-full bg-[#F2EFE7] rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2"
       >
         <motion.div
           initial={{ scale: 0.95 }}

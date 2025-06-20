@@ -163,7 +163,7 @@ const ProfileUpdatePage = () => {
   if (loading || !formData) return <UpdateProfileLoading />;
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md border">
+    <div className="max-w-3xl mx-auto mt-10 bg-[#F2EFE7] p-8 rounded-xl shadow-md border">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Update Profile</h2>
 
       {/* Profile picture (Image URL input) */}
@@ -344,7 +344,7 @@ const ProfileUpdatePage = () => {
           <button
             type="submit"
             disabled={updating}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow"
+            className="bg-blue-600 hover:bg-blue-700 text-gray-900 px-6 py-2 rounded shadow"
           >
             {updating ? "Saving..." : "Save Changes"}
           </button>

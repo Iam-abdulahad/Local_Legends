@@ -7,12 +7,12 @@ export default function NotFound() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#EEEEEE] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#F2EFE7] flex items-center justify-center p-6">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="bg-white shadow-2xl rounded-2xl max-w-3xl w-full flex flex-col md:flex-row items-center overflow-hidden"
+        className="bg-[#F2EFE7] shadow-2xl rounded-2xl max-w-3xl w-full flex flex-col md:flex-row items-center overflow-hidden"
       >
         {/* Left Side - Image */}
         <div className="md:w-1/2 w-full">
@@ -38,7 +38,7 @@ export default function NotFound() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 bg-[#7D0A0A] text-white px-5 py-3 rounded-xl shadow-md hover:bg-[#BF3131] transition duration-300"
+              className="flex items-center gap-2 bg-[#F2EFE7] text-gray-900 px-5 py-3 rounded-xl shadow-md hover:bg-[#BF3131] transition duration-300"
             >
               <ArrowLeft size={18} />
               Go Back
@@ -48,7 +48,7 @@ export default function NotFound() {
               whileHover={{ scale: 1.05, backgroundColor: "#EAD196" }}
               whileTap={{ scale: 0.95 }}
               onClick={() => navigate("/")}
-              className="flex items-center gap-2 bg-[#7D0A0A] text-white px-5 py-3 rounded-xl shadow-md hover:bg-[#BF3131] transition duration-300"
+              className="flex items-center gap-2 bg-[#F2EFE7] text-gray-900 px-5 py-3 rounded-xl shadow-md hover:bg-[#BF3131] transition duration-300"
             >
               <Home size={18} />
               Back to Home

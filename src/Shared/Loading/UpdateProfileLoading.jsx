@@ -1,7 +1,7 @@
 const UpdateProfileLoading = () => {
   return (
     <div className="flex items-center justify-center px-4 py-10">
-      <div className="animate-pulse bg-white shadow-xl rounded-2xl p-6 w-full max-w-2xl space-y-6">
+      <div className="animate-pulse bg-[#F2EFE7] shadow-xl rounded-2xl p-6 w-full max-w-2xl space-y-6">
         {/* Page Title */}
         <div className="h-6 w-1/3 bg-gray-200 rounded"></div>
 

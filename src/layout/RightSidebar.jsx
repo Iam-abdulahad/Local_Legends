@@ -28,7 +28,7 @@ const RightSidebar = ({ onLinkClick }) => {
   // If not logged in, show Login & Signup buttons
   if (!currentUser) {
     return (
-      <aside className="text-white space-y-4">
+      <aside className="text-gray-900 space-y-4">
         <div className="text-center">
           <img
             src={defaultAvatar}
@@ -47,7 +47,7 @@ const RightSidebar = ({ onLinkClick }) => {
           </button>
           <button
             onClick={() => navigate("/signup")}
-            className="border border-[#EAD196] text-[#EAD196] px-4 py-2 rounded hover:bg-[#7D0A0A]/30"
+            className="border border-[#EAD196] text-[#EAD196] px-4 py-2 rounded hover:bg-[#F2EFE7]/30"
           >
             Sign Up
           </button>
@@ -58,7 +58,7 @@ const RightSidebar = ({ onLinkClick }) => {
 
   // If logged in, show user info + menu
   return (
-    <aside className="text-white">
+    <aside className="text-gray-900">
       {/* User Info Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-[#EAD196]">
         <img
@@ -83,8 +83,8 @@ const RightSidebar = ({ onLinkClick }) => {
                 onClick={onLinkClick}
                 className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                   isActive
-                    ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"
-                    : "hover:bg-[#7D0A0A]/30"
+                    ? "bg-[#0ABAB5] text-white font-semibold shadow"
+                    : "hover:bg-[#0ABAB5]/20"
                 }`}
               >
                 <span className="text-lg">{item.icon}</span>
@@ -98,7 +98,7 @@ const RightSidebar = ({ onLinkClick }) => {
         <li>
           <button
             onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-600/40 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#0ABAB5]/20 transition-all duration-200"
           >
             <FaSignOutAlt className="text-lg" />
             <span className="text-base">Sign Out</span>
@@ -109,7 +109,7 @@ const RightSidebar = ({ onLinkClick }) => {
         <li>
           <button
             onClick={deleteAccount}
-            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-red-800/40 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#0ABAB5]/20 transition-all duration-200"
           >
             <FaTrashAlt className="text-lg" />
             <span className="text-base">Delete Account</span>

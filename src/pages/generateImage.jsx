@@ -39,7 +39,7 @@ const ImageGenerator = () => {
 
       <button
         onClick={handleGenerate}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md"
+        className="bg-blue-500 text-gray-900 px-4 py-2 rounded-md"
         disabled={loading}
       >
         {loading ? "Generating..." : "Generate Image"}

@@ -17,7 +17,7 @@ const TopbarMobile = () => {
   return (
     <>
       {/* Mobile Topbar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-[60px] bg-[#7D0A0A] text-[#EAD196] px-4 flex justify-between items-center z-50 shadow-md">
+      <div className="md:hidden fixed top-0 left-0 right-0 h-[60px] bg-[#F2EFE7] text-[#EAD196] px-4 flex justify-between items-center z-50 shadow-md">
         <button
           onClick={
             leftOpen
@@ -69,7 +69,7 @@ const TopbarMobile = () => {
           onClick={handleClose}
         >
           <div
-            className="bg-[#7D0A0A] w-4/5 h-full p-4 rounded-r-2xl shadow-lg relative"
+            className="bg-[#F2EFE7] w-4/5 h-full p-4 rounded-r-2xl shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
             <LeftSidebar onLinkClick={handleClose} />
@@ -84,7 +84,7 @@ const TopbarMobile = () => {
           onClick={handleClose}
         >
           <div
-            className="bg-[#7D0A0A] w-4/5 h-full p-4 rounded-l-2xl ml-auto shadow-lg relative"
+            className="bg-[#F2EFE7] w-4/5 h-full p-4 rounded-l-2xl ml-auto shadow-lg relative"
             onClick={(e) => e.stopPropagation()}
           >
             <RightSidebar onLinkClick={handleClose} />

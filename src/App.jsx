@@ -31,7 +31,7 @@ import TagFilteredStories from "./pages/Story/TagFilteredStories.jsx";
 
 const Intro = () => (
   <motion.div
-    className="w-screen h-screen flex flex-col justify-center items-center bg-[#7D0A0A] text-[#EAD196]"
+    className="w-screen h-screen flex flex-col justify-center items-center bg-[#F2EFE7] text-[#EAD196]"
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}

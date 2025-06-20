@@ -19,7 +19,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-[#7D0A0A]/60 to-black/80 z-10"></div>
 
       {/* Content */}
-      <div className="relative z-20 text-center px-4 md:px-10 text-white max-w-3xl">
+      <div className="relative z-20 text-center px-4 md:px-10 text-gray-900 max-w-3xl">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight drop-shadow-lg">
           Discover & Share Your Local Legends
         </h1>
@@ -31,13 +31,13 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/explore-map"
-            className="bg-[#BF3131] hover:bg-[#7D0A0A] text-white px-6 py-3 rounded-2xl shadow-lg transition-all duration-300"
+            className="bg-[#BF3131] hover:bg-[#F2EFE7] text-gray-900 px-6 py-3 rounded-2xl shadow-lg transition-all duration-300"
           >
             Explore Map
           </Link>
           <Link
             to="/submit"
-            className="bg-white text-[#7D0A0A] hover:bg-[#EAD196] px-6 py-3 rounded-2xl shadow-lg transition-all duration-300"
+            className="bg-[#F2EFE7] text-[#7D0A0A] hover:bg-[#EAD196] px-6 py-3 rounded-2xl shadow-lg transition-all duration-300"
           >
             Submit Your Story
           </Link>

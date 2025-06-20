@@ -85,7 +85,7 @@ const ExploreMap = () => {
   return (
     <div className="relative h-screen w-full">
       {loading || loadingMarkers ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#F2EFE7] z-10">
           <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-[#7D0A0A] border-opacity-75"></div>
         </div>
       ) : null}

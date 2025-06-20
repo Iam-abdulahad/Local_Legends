@@ -38,7 +38,7 @@ const LeftSidebar = ({ onLinkClick }) => {
   }, [allData]);
 
   return (
-    <aside className="h-screen overflow-y-auto scrollbar-hide p-4  text-white flex flex-col justify-between">
+    <aside className="h-screen overflow-y-auto scrollbar-hide p-4  text-gray-900 flex flex-col justify-between">
       <div className="space-y-6">
         <h1 className="text-2xl font-bold mb-6 tracking-wide font-[cursive] italic">
           Local Legends
@@ -55,8 +55,8 @@ const LeftSidebar = ({ onLinkClick }) => {
                 onClick={onLinkClick}
                 className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                   isActive
-                    ? "bg-[#EAD196] text-[#7D0A0A] font-semibold shadow"
-                    : "hover:bg-[#EAD196]/20"
+                    ? "bg-[#0ABAB5] text-white font-semibold shadow"
+                    : "hover:bg-[#0ABAB5]/20"
                 }`}
               >
                 <span className="text-lg">{item.icon}</span>
@@ -77,7 +77,7 @@ const LeftSidebar = ({ onLinkClick }) => {
               <Link
                 key={tag}
                 to={`/tags/${encodeURIComponent(tag)}`}
-                className="bg-[#BF3131] hover:bg-[#BF3131]/80 text-white px-3 py-1 rounded-full text-sm transition"
+                className="bg-[#0ABAB5] text-white hover:bg-[#0ABAB5]/80  px-3 py-1 rounded-full text-sm transition"
               >
                 #{tag}
               </Link>
