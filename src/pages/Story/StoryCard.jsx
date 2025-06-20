@@ -123,7 +123,7 @@ const StoryCard = ({ story }) => {
       {/* Footer: Actions */}
       <div className="flex justify-between items-center pt-2 border-t">
         <Link to={`/stories/${story.id}`}>
-          <button className="text-sm text-gray-100 bg-[#0ABAB5] hover:bg-slate-700 px-4 py-2 rounded shadow-sm">
+          <button className="text-sm text-gray-100 bg-[#0ABAB5] hover:bg-[#089E9A] px-4 py-2 rounded shadow-sm">
             Read more
           </button>
         </Link>

@@ -67,9 +67,9 @@ const SubmitReviewPage = () => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="bg-[#F2EFE7] rounded-3xl shadow-xl max-w-md w-full p-8"
+        className="bg-gray-200 rounded-3xl shadow-xl max-w-md w-full p-8"
       >
-        <h1 className="text-[#7D0A0A] text-3xl font-bold mb-6 text-center">
+        <h1 className="text-[#0ABAB5] text-3xl font-bold mb-6 text-center">
           📢 Submit Your Review
         </h1>
 
@@ -127,7 +127,7 @@ const SubmitReviewPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#F2EFE7] text-gray-900 font-semibold py-3 rounded-lg hover:bg-[#BF3131] transition disabled:opacity-50"
+            className="w-full bg-[#0ABAB5] text-gray-200 font-semibold py-3 rounded-lg hover:bg-[#089E9A] transition disabled:opacity-50"
           >
             {loading ? "Submitting..." : "Submit Review"}
           </button>

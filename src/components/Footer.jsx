@@ -2,12 +2,14 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#FFEDF3] text-[#8E1616] px-6 py-10">
+    <footer className="bg-[#F2EFE7] text-gray-800 px-6 py-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Logo / Name */}
         <div>
-          <h2 className="text-2xl font-bold mb-2">Local Legends</h2>
-          <p className="text-sm text-[#EAD196]/80">
+          <h1 className="text-2xl text-[#0ABAB5] font-bold mb-6 tracking-wide font-[cursive] italic">
+            Local Legends
+          </h1>
+          <p className="text-sm text-gray-700">
             Uncover the hidden stories around you.
           </p>
         </div>

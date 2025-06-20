@@ -16,7 +16,7 @@ const About = () => {
           transition={{ duration: 0.5 }}
           className="p-8 flex flex-col justify-center"
         >
-          <h1 className="text-4xl font-bold text-[#7D0A0A] mb-4">About Local Legend</h1>
+          <h1 className="text-4xl font-bold text-[#0ABAB5] mb-4">About Local Legend</h1>
           <p className="text-gray-700 mb-4 text-lg leading-relaxed">
             <strong>Local Legend</strong> is a unique platform built to preserve and celebrate the stories, traditions, and hidden gems of local communities. In an era of globalization and fast-paced digital content, many beautiful cultural elements risk being forgotten. This platform gives everyday people the opportunity to share their experiences, folklore, local heroes, and inspiring events that make their hometowns legendary.
           </p>

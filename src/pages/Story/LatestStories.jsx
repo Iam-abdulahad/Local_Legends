@@ -1,4 +1,5 @@
 import { useData } from "../../context/DataContext";
+import LoadingScreen from "../../Shared/Loading/LoadingScreen";
 import StoryCard from "./StoryCard";
 
 const LatestStories = () => {
@@ -6,7 +7,7 @@ const LatestStories = () => {
 
   if (loading)
     return (
-      <p className="text-center text-gray-600">Loading latest stories...</p>
+      <LoadingScreen></LoadingScreen>
     );
 
   // Sort by createdAt descending
@@ -18,12 +19,12 @@ const LatestStories = () => {
   const latestStories = sortedStories.slice(0, 9); // Show top 4 latest stories
 
   return (
-    <div className="relative z-20  px-4 md:px-10 text-blue-700 pb-8">
+    <div className="relative z-20  px-4 md:px-10 text-[#0ABAB5] pb-8">
       <div className="text-center mb-8">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight drop-shadow-lg">
           Latest Stories Shared by the Community
         </h1>
-        <p className="text-lg md:text-xl text-[#EAD196] mb-6">
+        <p className="text-lg md:text-xl text-gray-700 mb-6">
           Every story is a step into the past. Discover the tales shaping your
           region.
         </p>

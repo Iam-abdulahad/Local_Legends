@@ -5,7 +5,7 @@ import legendImage from "../assets/Images/earth-map.png";
 
 const CTASection = () => {
   return (
-    <section className="relative w-full bg-[#EAD196] text-[#7D0A0A] py-24 px-6 md:px-16 overflow-hidden">
+    <section className="relative w-full bg-gray-200 rounded-lg text-[#7D0A0A] py-24 px-6 md:px-16 overflow-hidden">
       <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-12">
         {/* Text Content */}
         <div className="flex-1 text-center md:text-left">
@@ -23,8 +23,8 @@ const CTASection = () => {
           </p>
 
           <Link
-            to="/submit-story"
-            className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-[#F2EFE7] hover:bg-[#BF3131] text-gray-900 rounded-full text-lg font-semibold shadow-md transition-all duration-300 group"
+            to="/submit"
+            className="mt-8 inline-flex items-center gap-3 px-6 py-3 bg-[#0ABAB5] hover:bg-[#089E9A] text-gray-200 rounded-full text-lg font-semibold shadow-md transition-all duration-300 group"
           >
             Submit Your Story
             <ArrowRightCircle className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />

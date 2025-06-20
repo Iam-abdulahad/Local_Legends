@@ -68,7 +68,7 @@ const RightSidebar = ({ onLinkClick }) => {
         />
         <div>
           <p className="font-semibold text-lg">{userData?.name || "User"}</p>
-          <p className="text-sm text-[#EAD196]">Logged In</p>
+          <p className="text-sm text-[#0ABAB5]">Logged In</p>
         </div>
       </div>
 

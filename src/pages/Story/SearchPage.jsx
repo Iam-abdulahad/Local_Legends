@@ -2,6 +2,7 @@ import StoryCard from "./StoryCard";
 import { useState, useEffect } from "react";
 import { useData } from "../../context/DataContext";
 import SearchInput from "./SearchInput";
+import LoadingCard from "../../Shared/Loading/LoadingCard";
 
 const SearchPage = () => {
   const { filteredData } = useData();
@@ -17,7 +18,6 @@ const SearchPage = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold text-center mb-4">Search Stories</h1>
       <SearchInput
         setSearchTriggered={setSearchTriggered}
         setLocalLoading={setLocalLoading}
@@ -28,12 +28,12 @@ const SearchPage = () => {
 
       {!searchTriggered ? (
         <p className="text-center text-gray-400 mt-10">
-          Start typing to search stories.
+          
         </p>
       ) : localLoading ? (
-        <p className="text-center py-10">Searching...</p>
+        <LoadingCard></LoadingCard>
       ) : filteredData.length === 0 ? (
-        <p className="text-center text-gray-500 mt-6">No stories found.</p>
+        <p className="text-center text-red mt-6">No stories found.</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
           {filteredData.map((story) => (

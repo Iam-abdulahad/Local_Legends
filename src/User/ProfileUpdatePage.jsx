@@ -163,8 +163,8 @@ const ProfileUpdatePage = () => {
   if (loading || !formData) return <UpdateProfileLoading />;
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 bg-[#F2EFE7] p-8 rounded-xl shadow-md border">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Update Profile</h2>
+    <div className="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-xl shadow-md border">
+      <h2 className="text-2xl font-bold mb-6 text-[#0ABAB5]">Update Profile</h2>
 
       {/* Profile picture (Image URL input) */}
       <div className="flex items-center gap-4 mb-6">
@@ -311,7 +311,7 @@ const ProfileUpdatePage = () => {
             {formData.skills.map((skill, index) => (
               <span
                 key={index}
-                className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
+                className="bg-[#0ABAB5]/20 text-blue-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
               >
                 {skill}
                 <button
@@ -344,7 +344,7 @@ const ProfileUpdatePage = () => {
           <button
             type="submit"
             disabled={updating}
-            className="bg-blue-600 hover:bg-blue-700 text-gray-900 px-6 py-2 rounded shadow"
+            className="bg-[#0ABAB5] hover:bg-[#089E9A] text-gray-200 px-6 py-2 rounded shadow"
           >
             {updating ? "Saving..." : "Save Changes"}
           </button>

@@ -109,14 +109,14 @@ const SubmitStory = () => {
   };
 
   return (
-    <div className="bg-[#FFEDF3] p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 max-w-3xl mx-auto">
       <motion.h1
-        className="text-3xl md:text-4xl font-extrabold text-[#7D0A0A] mb-6 text-center"
+        className="text-3xl md:text-4xl font-extrabold text-[#0ABAB5] mb-6 text-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        Share Your Local Legend ✨
+        Share Your Local Legend
       </motion.h1>
 
       <motion.form
@@ -124,7 +124,7 @@ const SubmitStory = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.6 }}
-        className="bg-[#F2EFE7] p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
+        className="bg-gray-200 p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
       >
 
         <InputField
@@ -146,7 +146,7 @@ const SubmitStory = () => {
         <button
           type="button"
           onClick={handleDetectLocation}
-          className="mt-2 text-sm text-blue-600 hover:underline"
+          className="mt-2 text-sm text-[#0ABAB5] hover:underline"
         >
           📍 Detect My Current Location
         </button>
@@ -180,8 +180,8 @@ const SubmitStory = () => {
           className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
             loading
               ? "bg-[#BF3131]/70 cursor-not-allowed"
-              : "bg-[#F2EFE7] hover:bg-[#BF3131]"
-          } text-[#EAD196]`}
+              : "bg-[#0ABAB5] hover:bg-[#089E9A]]"
+          } text-gray-200`}
         >
           {loading ? (
             <div className="flex items-center gap-2 animate-pulse">

@@ -43,8 +43,8 @@ const SearchInput = ({ setSearchTriggered, setLocalLoading, setError }) => {
           type="text"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="Search stories by title or content..."
-          className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#BF3131] transition"
+          placeholder="Start typing to search stories"
+          className="w-full pl-10 pr-4 py-3 rounded-full border border-[#0ABAB5] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0ABAB5] transition"
         />
         <FaSearch className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
       </div>

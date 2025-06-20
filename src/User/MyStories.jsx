@@ -49,7 +49,7 @@ const MyStories = () => {
         {myStories.map((story) => (
           <div
             key={story.id}
-            className="bg-[#F2EFE7] shadow-md rounded-2xl p-5 border border-gray-200"
+            className="bg-gray-200 shadow-md rounded-2xl p-5 border border-gray-200"
           >
             <h3 className="text-xl font-semibold text-blue-700 mb-2">
               {story.title}

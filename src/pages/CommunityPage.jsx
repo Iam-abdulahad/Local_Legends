@@ -83,9 +83,9 @@ const CommunityPage = () => {
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-10"
+          className="text-4xl text-[#0ABAB5] md:text-5xl font-bold text-center mb-10"
         >
-          🌟 Community Highlights & Testimonials
+          Community Highlights & Testimonials
         </motion.h1>
 
         {/* Top Storytellers */}
@@ -98,7 +98,7 @@ const CommunityPage = () => {
           {topContributors.map((user, idx) => (
             <div
               key={idx}
-              className="bg-[#F2EFE7] shadow-lg rounded-2xl p-6 flex flex-col md:flex-row items-center gap-4 hover:shadow-xl transition"
+              className="bg-gray-200 shadow-lg rounded-2xl p-6 flex flex-col md:flex-row items-center gap-4 hover:shadow-xl transition"
             >
               <img
                 src={user.image}
@@ -120,9 +120,9 @@ const CommunityPage = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl font-semibold mt-16 mb-6 text-center"
+          className="text-3xl text-[#0ABAB5]/65 font-semibold mt-16 mb-6 text-center"
         >
-          💬 What Our Community Says
+          What Our Community Says?
         </motion.h2>
 
         <motion.div
@@ -134,7 +134,7 @@ const CommunityPage = () => {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="bg-[#EAD196] text-[#7D0A0A] p-6 rounded-2xl shadow-md hover:shadow-xl transition"
+              className="bg-[#0ABAB5]/10 text-[#7D0A0A] p-6 rounded-2xl shadow-md hover:shadow-xl transition"
             >
               <p className="text-lg font-medium">“{t.feedback}”</p>
               <p className="mt-4 font-semibold text-right">— {t.name}</p>
