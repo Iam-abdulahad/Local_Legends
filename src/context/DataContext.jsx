@@ -1,4 +1,3 @@
-// src/context/DataContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebaseConfig";
@@ -10,16 +9,18 @@ export const DataProvider = ({ children }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch all stories from Firestore
   const fetchAllStories = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const querySnapshot = await getDocs(collection(db, "stories"));
       const storiesList = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
+
       setAllData(storiesList);
-      setFilteredData(storiesList);
+      setFilteredData(storiesList); // default view
     } catch (error) {
       console.error("Error loading stories:", error);
     } finally {
@@ -31,6 +32,7 @@ export const DataProvider = ({ children }) => {
     fetchAllStories();
   }, []);
 
+  // Helper to format Firestore timestamps for keyword search
   const formatDate = (timestamp) => {
     try {
       if (!timestamp || !timestamp.toDate) return "";
@@ -45,6 +47,7 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // Search function
   const searchByKeyword = (keyword) => {
     const lower = keyword.toLowerCase();
 
@@ -71,14 +74,17 @@ export const DataProvider = ({ children }) => {
     setFilteredData(filtered);
   };
 
+  // Get featured stories
   const getFeaturedStories = () => {
     return allData.filter((item) => item.isFeatured === true);
   };
 
+  // Get saved stories for a user
   const getSavedStories = (uid) => {
     return allData.filter((item) => item.savedBy?.includes(uid));
   };
 
+  // Reset filters to show all
   const resetFilter = () => {
     setFilteredData(allData);
   };
@@ -93,6 +99,7 @@ export const DataProvider = ({ children }) => {
         getFeaturedStories,
         getSavedStories,
         resetFilter,
+        fetchAllStories,
       }}
     >
       {children}
@@ -100,6 +107,6 @@ export const DataProvider = ({ children }) => {
   );
 };
 
-// Custom hooks
+// Custom hooks for consuming the context
 export const useData = () => useContext(DataContext);
 export const useDataContext = () => useContext(DataContext);

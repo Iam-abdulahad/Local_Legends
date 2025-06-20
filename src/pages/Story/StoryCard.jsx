@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaRegBookmark, FaBookmark, FaHeart } from "react-icons/fa";
 import { useState, useEffect } from "react";
@@ -14,6 +14,8 @@ import { useAuth } from "../../context/AuthContex";
 
 const StoryCard = ({ story }) => {
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isSaved, setIsSaved] = useState(false);
   const [hasReacted, setHasReacted] = useState(false);
 
@@ -22,7 +24,7 @@ const StoryCard = ({ story }) => {
 
     const fetchData = async () => {
       try {
-        // Check if reacted
+        // Get the latest story data
         const storyRef = doc(db, "stories", story.id);
         const storySnap = await getDoc(storyRef);
         if (storySnap.exists()) {
@@ -31,13 +33,12 @@ const StoryCard = ({ story }) => {
           setHasReacted(reactions.includes(currentUser.uid));
         }
 
-        // Check if saved (from user's own data)
+        // Get the user's saved stories
         const userRef = doc(db, "users", currentUser.uid);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
-          const userData = userSnap.data();
-          const saved = Array.isArray(userData.savedStories)
-            ? userData.savedStories
+          const saved = Array.isArray(userSnap.data().savedStories)
+            ? userSnap.data().savedStories
             : [];
           setIsSaved(saved.includes(story.id));
         }
@@ -50,9 +51,13 @@ const StoryCard = ({ story }) => {
   }, [currentUser, story]);
 
   const handleReaction = async () => {
-    if (!currentUser) return <Navigate to="/login" state={{ from: location }} replace />;
-    const storyRef = doc(db, "stories", story.id);
+    if (!currentUser) {
+      navigate("/login", { state: { from: location }, replace: true });
+      return;
+    }
+
     try {
+      const storyRef = doc(db, "stories", story.id);
       await updateDoc(storyRef, {
         reactions: hasReacted
           ? arrayRemove(currentUser.uid)
@@ -65,9 +70,13 @@ const StoryCard = ({ story }) => {
   };
 
   const handleSave = async () => {
-    if (!currentUser) return <Navigate to="/login" state={{ from: location }} replace />;
-    const userRef = doc(db, "users", currentUser.uid);
+    if (!currentUser) {
+      navigate("/login", { state: { from: location }, replace: true });
+      return;
+    }
+
     try {
+      const userRef = doc(db, "users", currentUser.uid);
       await updateDoc(userRef, {
         savedStories: isSaved ? arrayRemove(story.id) : arrayUnion(story.id),
       });
@@ -131,14 +140,17 @@ const StoryCard = ({ story }) => {
         <div className="flex items-center gap-4">
           <button
             onClick={handleReaction}
+            title={currentUser ? "React to story" : "Login to react"}
             className={`text-xl transition ${
               hasReacted ? "text-red-500" : "text-gray-500 hover:text-red-400"
             }`}
           >
             <FaHeart />
           </button>
+
           <button
             onClick={handleSave}
+            title={currentUser ? "Save story" : "Login to save"}
             className="text-xl text-gray-500 hover:text-yellow-600 transition"
           >
             {isSaved ? <FaBookmark /> : <FaRegBookmark />}

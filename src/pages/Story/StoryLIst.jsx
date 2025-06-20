@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase/firebaseConfig";
-import { motion } from "framer-motion";
+import { db } from "../../firebase/firebaseConfig";;
 import StoryCard from "./StoryCard";
-import heroMap from "../../assets/Images/hero-map.png";
 import LoadingScreen from "../../Shared/Loading/LoadingScreen";
 
 const StoriesList = () => {

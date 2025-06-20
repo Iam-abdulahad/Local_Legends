@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   doc,
   getDoc,
@@ -22,6 +22,8 @@ const StoryDetails = () => {
   const [story, setStory] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -75,7 +77,10 @@ const StoryDetails = () => {
   };
 
   const handleSave = async () => {
-    if (!currentUser) return alert("Please log in to save stories.");
+    if (!currentUser) {
+      navigate("/login", { state: { from: location }, replace: true });
+      return;
+    }
     try {
       const userRef = doc(db, "users", currentUser.uid);
 

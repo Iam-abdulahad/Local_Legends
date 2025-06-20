@@ -35,19 +35,19 @@ const RightSidebar = ({ onLinkClick }) => {
             alt="Guest avatar"
             className="w-16 h-16 mx-auto rounded-full border-2 border-[#EAD196]"
           />
-          <p className="mt-2 font-semibold">Welcome, Guest!</p>
-          <p className="text-sm text-[#EAD196]">Please log in</p>
+          <p className="mt-2 font-semibold text-[#0ABAB5]">Welcome, Guest!</p>
+          <p className="text-sm text-gray-8--">Please log in</p>
         </div>
         <div className="flex justify-center gap-4">
           <button
             onClick={() => navigate("/login")}
-            className="bg-[#EAD196] text-[#7D0A0A] px-4 py-2 rounded hover:bg-[#e2bd66]"
+            className="bg-[#0ABAB5] text-gray-200 px-4 py-2 rounded hover:bg-[#089E9A]"
           >
             Login
           </button>
           <button
             onClick={() => navigate("/signup")}
-            className="border border-[#EAD196] text-[#EAD196] px-4 py-2 rounded hover:bg-[#F2EFE7]/30"
+            className="border border-[#0ABAB5] text-gray-800 px-4 py-2 rounded hover:bg-[#F2EFE7]/30"
           >
             Sign Up
           </button>
