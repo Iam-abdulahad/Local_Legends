@@ -16,14 +16,16 @@ const Footer = () => {
         </div>
 
         {/* Navigation Links */}
-        <div className="flex flex-col gap-2 md:items-center">
+
+        <div className="flex flex-col gap-2 ">
+          <h3 className="text-lg text-[#0ABAB5] font-semibold mb-4">Quick Links</h3>
           <Link to="/" className="hover:text-[#BF3131] transition">
             Home
           </Link>
           <Link to="/submit" className="hover:text-[#BF3131] transition">
             Submit Story
           </Link>
-          <Link to="/map" className="hover:text-[#BF3131] transition">
+          <Link to="/explore-map" className="hover:text-[#BF3131] transition">
             Explore Map
           </Link>
           <Link to="/about" className="hover:text-[#BF3131] transition">
@@ -36,7 +38,7 @@ const Footer = () => {
 
         {/* Social Icons */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Connect With Developer</h3>
+          <h3 className="text-lg text-[#0ABAB5] font-semibold mb-4">Connect With Developer</h3>
           <p className="text-sm text-gray-700">
             Have suggestions or feedback? Connect with me:
           </p>

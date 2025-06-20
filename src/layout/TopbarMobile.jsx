@@ -3,6 +3,7 @@ import { useState } from "react";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 import { useAuth } from "../context/AuthContex";
+import { Link } from "react-router-dom";
 
 const TopbarMobile = () => {
   const [leftOpen, setLeftOpen] = useState(false);
@@ -32,7 +33,11 @@ const TopbarMobile = () => {
           {leftOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
 
-        <h1 className="text-xl font-semibold font-[cursive] italic tracking-wide">Local Legends</h1>
+        <Link to="/">
+          <h1 className="text-xl font-semibold font-[cursive] italic tracking-wide cursor-pointer">
+            Local Legends
+          </h1>
+        </Link>
 
         <button
           onClick={

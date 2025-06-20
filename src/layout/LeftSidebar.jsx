@@ -40,9 +40,11 @@ const LeftSidebar = ({ onLinkClick }) => {
   return (
     <aside className="h-screen overflow-y-auto scrollbar-hide p-4  text-gray-900 flex flex-col justify-between">
       <div className="space-y-6">
-        <h1 className="text-2xl text-[#0ABAB5] font-bold mb-6 tracking-wide font-[cursive] italic">
-          Local Legends
-        </h1>
+        <Link to="/">
+          <h1 className="text-2xl text-[#0ABAB5] font-bold mb-6 tracking-wide font-[cursive] italic">
+            Local Legends
+          </h1>
+        </Link>
 
         {/* Nav */}
         <nav className="space-y-3">
