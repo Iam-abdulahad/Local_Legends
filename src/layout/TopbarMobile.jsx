@@ -17,7 +17,7 @@ const TopbarMobile = () => {
   return (
     <>
       {/* Mobile Topbar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-[60px] bg-[#F2EFE7] text-[#EAD196] px-4 flex justify-between items-center z-50 shadow-md">
+      <div className="md:hidden fixed top-0 left-0 right-0 h-[60px] bg-[#F2EFE7] text-[#0ABAB5] px-4 flex justify-between items-center z-50 shadow-md">
         <button
           onClick={
             leftOpen

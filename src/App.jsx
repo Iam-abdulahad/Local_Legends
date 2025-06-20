@@ -8,8 +8,7 @@ import MainLayout from "./layout/MainLayout.jsx";
 // Components
 import Footer from "./components/Footer.jsx";
 
-// Pages
-import Map from "./pages/Map.jsx";
+
 import About from "./pages/About.jsx";
 import Contact from "./pages/Contact.jsx";
 import Login from "./Login/Login.jsx";
@@ -83,7 +82,6 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/submit" element={<SubmitStory />} />
-                <Route path="/map" element={<Map />} />
                 <Route path="/explore-map" element={<ExploreMap />} />
                 <Route path="/stories" element={<StoriesList />} />
                 <Route path="/about" element={<About />} />

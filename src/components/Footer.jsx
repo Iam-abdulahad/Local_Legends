@@ -1,3 +1,4 @@
+import { FaGithub, FaGlobe, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -34,20 +35,41 @@ const Footer = () => {
         </div>
 
         {/* Social Icons */}
-        <div className="flex md:justify-end items-center gap-4">
-          <a href="#" className="hover:text-[#BF3131]" aria-label="Facebook">
-            Facebook
-          </a>
-          <a href="#" className="hover:text-[#BF3131]" aria-label="Twitter">
-            X
-          </a>
-          <a href="#" className="hover:text-[#BF3131]" aria-label="Instagram">
-            IG
-          </a>
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Connect With Developer</h3>
+          <p className="text-sm text-gray-700">
+            Have suggestions or feedback? Connect with me:
+          </p>
+          <div className="flex space-x-4 mt-4">
+            <a
+              href="https://ahad-dev.web.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-gray-800 hover:scale-110 transition-transform duration-300"
+            >
+              <FaGlobe className="text-2xl" />
+            </a>
+            <a
+              href="https://github.com/Iam-abdulahad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-gray-800 hover:scale-110 transition-transform duration-300"
+            >
+              <FaGithub className="text-2xl" />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/iam-abdulahad"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-gray-800 hover:scale-110 transition-transform duration-300"
+            >
+              <FaLinkedin className="text-2xl" />
+            </a>
+          </div>
         </div>
       </div>
 
-      <div className="mt-8 border-t border-[#EAD196]/30 pt-4 text-sm text-center text-[#EAD196]/70">
+      <div className="mt-8 border-t border-[#EAD196]/30 pt-4 text-sm text-center text-[#0ABAB5]/70">
         © {new Date().getFullYear()} Local Legends. All rights reserved.
       </div>
     </footer>
