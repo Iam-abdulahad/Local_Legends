@@ -3,46 +3,66 @@ import heroImg from "../assets/Images/about-illustration.jpg";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-[#F2EFE7] px-6 py-12 flex flex-col items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-6xl w-full bg-[#F2EFE7] rounded-2xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-2"
-      >
+    <div className="min-h-screen px-6 py-16">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
         <motion.div
-          initial={{ scale: 0.95 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="p-8 flex flex-col justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="text-center mb-12"
         >
-          <h1 className="text-4xl font-bold text-[#0ABAB5] mb-4">About Local Legend</h1>
-          <p className="text-gray-700 mb-4 text-lg leading-relaxed">
-            <strong>Local Legend</strong> is a unique platform built to preserve and celebrate the stories, traditions, and hidden gems of local communities. In an era of globalization and fast-paced digital content, many beautiful cultural elements risk being forgotten. This platform gives everyday people the opportunity to share their experiences, folklore, local heroes, and inspiring events that make their hometowns legendary.
-          </p>
-
-          <p className="text-gray-700 mb-4 text-lg leading-relaxed">
-            Whether it’s the tale of an unsung village teacher, an age-old community ritual, or the journey of a small-town entrepreneur, we want your story to be heard. By crowd-sourcing narratives, Local Legend aims to build a digital archive that not only entertains but educates and inspires generations.
-          </p>
-
-          <p className="text-gray-700 text-lg leading-relaxed">
-            This is more than just a storytelling site—it’s a movement to reconnect with our roots and uplift voices from the heart of communities around the world. Join us, share your legend, and help keep the spirit of local culture alive.
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0ABAB5]">
+            About Local Legends
+          </h1>
+          <p className="text-lg text-[#7D0A0A] mt-4 max-w-3xl mx-auto">
+            A movement to preserve stories, honor community heroes, and
+            celebrate local cultures.
           </p>
         </motion.div>
 
+        {/* Content Grid */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="w-full h-full"
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2"
         >
-          <img
-            src={heroImg}
-            alt="Illustration representing storytelling"
-            className="object-cover h-full w-full"
-          />
+          {/* Text Content */}
+          <div className="p-8 md:p-10 flex flex-col justify-center">
+            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+              <strong className="text-[#0ABAB5]">Local Legends</strong> is a
+              storytelling platform where community voices shine. In today's
+              fast-paced world, countless cultural stories, traditions, and
+              unsung heroes remain unheard or forgotten. We're here to change
+              that.
+            </p>
+
+            <p className="text-gray-700 text-lg leading-relaxed mb-6">
+              Whether it's the tale of a humble village teacher, a cherished
+              festival, or the journey of a small-town changemaker, we provide a
+              stage for authentic voices. Our platform is a digital archive of
+              inspiration, preserving the essence of what makes communities
+              truly legendary.
+            </p>
+
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Join us in uplifting these local legends. Share your story. Honor
+              your roots. Inspire generations.
+            </p>
+          </div>
+
+          {/* Image */}
+          <div className="w-full h-72 md:h-full">
+            <img
+              loading="lazy"
+              src={heroImg}
+              alt="Illustration"
+              className="object-cover w-full h-full"
+            />
+          </div>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 };
