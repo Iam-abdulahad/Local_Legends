@@ -50,7 +50,7 @@ const StoryCard = ({ story }) => {
   }, [currentUser, story]);
 
   const handleReaction = async () => {
-    if (!currentUser) return alert("Please log in to react.");
+    if (!currentUser) return <Navigate to="/login" state={{ from: location }} replace />;
     const storyRef = doc(db, "stories", story.id);
     try {
       await updateDoc(storyRef, {
@@ -65,7 +65,7 @@ const StoryCard = ({ story }) => {
   };
 
   const handleSave = async () => {
-    if (!currentUser) return alert("Please log in to save.");
+    if (!currentUser) return <Navigate to="/login" state={{ from: location }} replace />;
     const userRef = doc(db, "users", currentUser.uid);
     try {
       await updateDoc(userRef, {

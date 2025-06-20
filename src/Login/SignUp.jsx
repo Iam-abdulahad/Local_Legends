@@ -1,155 +1,95 @@
 import { useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SocialLogin from "./SocialsLogin";
-import { Link } from "react-router-dom";
-import { auth, db } from "../firebase/firebaseConfig";
-import Swal from "sweetalert2";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
-import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContex";
+import { div } from "motion/react-client";
 
 const Signup = () => {
-  const [signupData, setSignupData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "user",
-    createdAt: serverTimestamp(),
-  });
-
+  const { signupWithEmail } = useAuth();
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSignupData((prev) => ({ ...prev, [name]: value }));
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
+  const handleChange = (e) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    try {
-      const { name, email, password } = signupData;
-
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-
-      await sendEmailVerification(user);
-
-      const userInfo = {
-        uid: user.uid,
-        name,
-        email,
-        photoURL: user.photoURL || "",
-        role: "user",
-        createdAt: new Date(),
-      };
-
-      await setDoc(doc(db, "users", user.uid), userInfo);
-
-      
-      Swal.fire({
-        icon: "success",
-        title: "Signup Successful",
-        html: `Welcome, ${name}!<br/>A verification email has been sent to <strong>${email}</strong>. Please verify your email before logging in.`,
-      });
-
-      
-      setSignupData({ name: "", email: "", password: "" });
-    } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Signup Failed",
-        text: error.message,
-      });
-    }
-
+    const success = await signupWithEmail(form.name, form.email, form.password);
     setLoading(false);
+
+    if (success) {
+      navigate(from, { replace: true });
+    }
   };
 
   return (
-    <div className="flex items-center justify-center bg-[#F2EFE7] p-6">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-[#F2EFE7] p-8 rounded-2xl shadow-xl w-full max-w-md"
-      >
-        <h2 className="text-3xl font-bold text-center text-[#7D0A0A] mb-6">
-          Create Account
+    <div className="min-h-screen flex items-center justify-center bg-[#F2EFE7] p-6">
+      <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-2xl">
+        <h2 className="text-2xl text-[#0ABAB5] font-semibold text-center mb-4">
+          Create an Account
         </h2>
 
-        <label className="block text-[#7D0A0A] font-medium mb-1">Name</label>
-        <input
-          type="text"
-          name="name"
-          value={signupData.name}
-          onChange={handleChange}
-          required
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-        />
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full border px-3 py-2 rounded"
+          />
 
-        <label className="block text-[#7D0A0A] font-medium mb-1">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={signupData.email}
-          onChange={handleChange}
-          required
-          className="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-        />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full border px-3 py-2 rounded"
+          />
 
-        <label className="block text-[#7D0A0A] font-medium mb-1">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          value={signupData.password}
-          onChange={handleChange}
-          required
-          className="w-full p-2 mb-6 border rounded focus:outline-none focus:ring-2 focus:ring-[#BF3131]"
-        />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            className="w-full border px-3 py-2 rounded"
+          />
 
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          type="submit"
-          disabled={loading}
-          className={`w-full py-3 rounded-xl font-semibold transition-all flex justify-center items-center gap-2 ${
-            loading
-              ? "bg-[#BF3131]/70 cursor-not-allowed"
-              : "bg-[#F2EFE7] hover:bg-[#BF3131]"
-          } text-[#EAD196]`}
-        >
-          {loading ? (
-            <div className="flex items-center gap-2 animate-pulse">
-              <div className="w-4 h-4 border-2 border-[#EAD196] border-t-transparent rounded-full animate-spin"></div>
-              Signing Up...
-            </div>
-          ) : (
-            "Sign Up"
-          )}
-        </motion.button>
+          <button
+            type="submit"
+            className="w-full bg-[#0ABAB5] text-white py-2 rounded hover:bg-teal-600 transition"
+            disabled={loading}
+          >
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
+        </form>
 
-        <p className="text-center text-sm text-gray-600 mt-4">
+        <div className="text-center mt-4">
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-[#7D0A0A] font-semibold hover:underline"
+            className="text-[#0ABAB5] font-medium hover:underline"
           >
             Login
           </Link>
-        </p>
-        <div className="flex items-center justify-center my-4">
-          <hr className="w-full border-t border-gray-300" />
-          <span className="mx-2 text-gray-500">or</span>
-          <hr className="w-full border-t border-gray-300" />
         </div>
+
+        <div className="my-4 text-center text-gray-500">or</div>
+
         <SocialLogin />
-      </form>
+      </div>
     </div>
   );
 };

@@ -32,7 +32,9 @@ import SubmitReviewPage from "./User/SubmitReviewPage.jsx";
 import SearchPage from "./pages/Story/SearchPage.jsx";
 import StoriesList from "./pages/Story/StoryLIst.jsx";
 import TagFilteredStories from "./pages/Story/TagFilteredStories.jsx";
+import RequireAuth from "./context/RequireAuth.jsx";
 
+// Intro animation component
 const Intro = () => (
   <motion.div
     className="w-screen h-screen flex flex-col justify-center items-center bg-[#F2EFE7] text-[#0ABAB5]"
@@ -95,26 +97,70 @@ const AppContent = () => {
           className="min-h-screen flex flex-col"
         >
           <Routes>
-            {/* Pages using the main layout */}
+            {/* Main layout routes */}
             <Route element={<MainLayout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/submit" element={<SubmitStory />} />
               <Route path="/explore-map" element={<ExploreMap />} />
               <Route path="/stories" element={<StoriesList />} />
               <Route path="/about" element={<About />} />
               <Route path="/community" element={<CommunityPage />} />
-              <Route path="/submit-review" element={<SubmitReviewPage />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/stories/:id" element={<StoryDetails />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/update-profile" element={<ProfileUpdatePage />} />
-              <Route path="/saved-stories" element={<SavedStories />} />
-              <Route path="/my-stories" element={<MyStories />} />
               <Route path="/tags/:tagName" element={<TagFilteredStories />} />
             </Route>
 
-            {/* Standalone auth pages */}
+            {/* Protected routes outside layout */}
+            <Route
+              path="/submit"
+              element={
+                <RequireAuth>
+                  <SubmitStory />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/submit-review"
+              element={
+                <RequireAuth>
+                  <SubmitReviewPage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <RequireAuth>
+                  <Profile />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/update-profile"
+              element={
+                <RequireAuth>
+                  <ProfileUpdatePage />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/saved-stories"
+              element={
+                <RequireAuth>
+                  <SavedStories />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/my-stories"
+              element={
+                <RequireAuth>
+                  <MyStories />
+                </RequireAuth>
+              }
+            />
+
+            {/* Auth & error pages */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<NotFound />} />
