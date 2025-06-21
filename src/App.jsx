@@ -108,57 +108,57 @@ const AppContent = () => {
               <Route path="/search" element={<SearchPage />} />
               <Route path="/stories/:id" element={<StoryDetails />} />
               <Route path="/tags/:tagName" element={<TagFilteredStories />} />
-            </Route>
 
-            {/* Protected routes outside layout */}
-            <Route
-              path="/submit"
-              element={
-                <RequireAuth>
-                  <SubmitStory />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/submit-review"
-              element={
-                <RequireAuth>
-                  <SubmitReviewPage />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <RequireAuth>
-                  <Profile />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/update-profile"
-              element={
-                <RequireAuth>
-                  <ProfileUpdatePage />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/saved-stories"
-              element={
-                <RequireAuth>
-                  <SavedStories />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/my-stories"
-              element={
-                <RequireAuth>
-                  <MyStories />
-                </RequireAuth>
-              }
-            />
+              {/* Protected routes outside layout */}
+              <Route
+                path="/submit"
+                element={
+                  <RequireAuth>
+                    <SubmitStory />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/submit-review"
+                element={
+                  <RequireAuth>
+                    <SubmitReviewPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <Profile />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/update-profile"
+                element={
+                  <RequireAuth>
+                    <ProfileUpdatePage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/saved-stories"
+                element={
+                  <RequireAuth>
+                    <SavedStories />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/my-stories"
+                element={
+                  <RequireAuth>
+                    <MyStories />
+                  </RequireAuth>
+                }
+              />
+            </Route>
 
             {/* Auth & error pages */}
             <Route path="/login" element={<Login />} />

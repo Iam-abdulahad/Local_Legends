@@ -1,5 +1,5 @@
 import StoryCard from "./StoryCard";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useData } from "../../context/DataContext";
 import SearchInput from "./SearchInput";
 import LoadingCard from "../../Shared/Loading/LoadingCard";
@@ -10,11 +10,6 @@ const SearchPage = () => {
   const [localLoading, setLocalLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    document.title = searchTriggered
-      ? `Search Results (${filteredData.length}) - Local Legends`
-      : "Search Stories - Local Legends";
-  }, [searchTriggered, filteredData]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-6">
