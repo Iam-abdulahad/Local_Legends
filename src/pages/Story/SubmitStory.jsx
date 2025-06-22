@@ -1,17 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import { motion } from "framer-motion";
-import { getAuth } from "firebase/auth";
+import { useAuth } from "../../context/AuthContex";
 
 const SubmitStory = () => {
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
+  const { userData, currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
 
   if (!currentUser) {
     alert("Please log in to submit a story.");
-    return;
+    return null;  
   }
 
   const [formData, setFormData] = useState({
@@ -27,8 +26,8 @@ const SubmitStory = () => {
     if (currentUser) {
       setFormData((prev) => ({
         ...prev,
-        name: currentUser.displayName || "",
-        email: currentUser.email || "",
+        name: userData?.name || "",
+        email: userData?.email || "",
       }));
     }
   }, [currentUser]);
@@ -70,10 +69,11 @@ const SubmitStory = () => {
         .filter((tag) => tag.length > 0);
 
       const userInfoArray = [
-        currentUser.displayName || "Anonymous",
-        currentUser.email || "No Email",
-        currentUser.uid,
-        currentUser.photoURL || "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png",
+        userData?.name || "Anonymous",
+        userData?.email || "No Email",
+        userData?.uid,
+        userData?.photoURL ||
+          "https://i.ibb.co/dT9hLmH/Chat-GPT-Image-Jun-15-2025-11-01-01-PM.png",
       ];
 
       const docRef = await addDoc(collection(db, "stories"), {
@@ -87,6 +87,7 @@ const SubmitStory = () => {
           "😂": 0,
           "😮": 0,
         },
+        authorId: currentUser.uid
       });
 
       console.log("Story submitted with ID:", docRef.id);
@@ -126,7 +127,6 @@ const SubmitStory = () => {
         transition={{ delay: 0.1, duration: 0.6 }}
         className="bg-gray-200 p-6 md:p-8 rounded-2xl shadow-lg space-y-6"
       >
-
         <InputField
           label="Story Title"
           name="title"
