@@ -90,7 +90,6 @@ const SubmitStory = () => {
         authorId: currentUser.uid
       });
 
-      console.log("Story submitted with ID:", docRef.id);
       alert("Story submitted successfully!");
 
       setFormData({
