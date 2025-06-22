@@ -53,11 +53,14 @@
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/yourusername/local-legends.git
+git clone https://github.com/Iam-abdulahad/Local_Legends.git
 cd local-legends
 ```
 ```bash
 npm install
+```
+```bash
+npm run dev
 ```
 
 
